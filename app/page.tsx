@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Container,
@@ -26,6 +26,7 @@ import {
 } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Add, Remove, Delete } from '@mui/icons-material';
+import Image from 'next/image';
 
 const theme = createTheme({
   palette: {
@@ -75,6 +76,8 @@ export default function DeliveryOrderPage() {
   const [schedulePickup, setSchedulePickup] = useState(false);
   const [pickupDateTime, setPickupDateTime] = useState('');
 
+  const summaryRef = useRef<HTMLDivElement>(null);
+
   const addItemToOrder = (item: MenuItem) => {
     const existingItem = currentOrder.find((orderItem) => orderItem.id === item.id);
     if (existingItem) {
@@ -86,7 +89,45 @@ export default function DeliveryOrderPage() {
     } else {
       setCurrentOrder([...currentOrder, { ...item, quantity: 1 }]);
     }
+    setSnackbarMessage(`Se ha añadido ${item.name} al pedido.`);
+    setSnackbarOpen(true);
+    handleScrollToSummary();
   };
+
+  const smoothScrollTo = (element: HTMLElement, duration: number) => {
+    const start = window.scrollY; // Posición inicial
+    const target = element.getBoundingClientRect().top + start; // Posición del objetivo
+    const distance = target - start; // Distancia a recorrer
+    let startTime: number | null = null;
+
+    const animation = (currentTime: number) => {
+      if (startTime === null) startTime = currentTime; // Guardar el tiempo de inicio
+      const timeElapsed = currentTime - startTime; // Tiempo transcurrido
+      const progress = Math.min(timeElapsed / duration, 1); // Normalizar el progreso (0 a 1)
+
+      // Aplicar una función de easing, por ejemplo, "ease-in-out"
+      const easeInOut = (t: number) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+
+      // Calcular la nueva posición
+      const move = start + distance * easeInOut(progress);
+      window.scrollTo(0, move); // Desplazar a la nueva posición
+
+      if (progress < 1) {
+        requestAnimationFrame(animation); // Continuar la animación
+      }
+    };
+
+    requestAnimationFrame(animation); // Iniciar la animación
+  };
+
+  // Reemplaza la llamada a scrollIntoView por la función personalizada
+  const handleScrollToSummary = () => {
+    if (summaryRef.current) {
+      smoothScrollTo(summaryRef.current, 1000); // 1000 ms para un desplazamiento más lento
+      setSnackbarOpen(false); // Cerrar el Snackbar al hacer scroll
+    }
+  };
+
 
   const removeItemFromOrder = (itemId: string) => {
     const existingItem = currentOrder.find((orderItem) => orderItem.id === itemId);
@@ -112,6 +153,22 @@ export default function DeliveryOrderPage() {
   const handleSubmitOrder = async () => {
     if (currentOrder.length === 0) {
       setSnackbarMessage('Por favor, añade items al pedido.');
+      setSnackbarOpen(true);
+      return;
+    }
+
+    // Validar que el nombre sea una string no vacía y no contenga números
+    const nameRegex = /^[A-Za-zÀ-ÿ\s]+$/; // Regex para validar que solo contenga letras (incluyendo caracteres especiales) y espacios
+    if (!customerName || !nameRegex.test(customerName)) {
+      setSnackbarMessage('Por favor, introduce un nombre válido (sin números).');
+      setSnackbarOpen(true);
+      return;
+    }
+
+    // Validar que el teléfono sea un número
+    const phoneRegex = /^[0-9]{9,15}$/; // Regex para validar el formato del teléfono (9 a 15 dígitos)
+    if (!customerPhone || !phoneRegex.test(customerPhone)) {
+      setSnackbarMessage('Por favor, introduce un número de teléfono válido (9 a 15 dígitos).');
       setSnackbarOpen(true);
       return;
     }
@@ -183,10 +240,12 @@ export default function DeliveryOrderPage() {
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         <Box sx={{ textAlign: 'center', mb: 4 }}>
           <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-            <img
+            <Image
               src="/logo.png"
-              alt="Logo de El Kebab de Iñaki"
-              style={{ width: '150px' }}
+              alt="Logo de la empresa - Nombre de la empresa"
+              width={250} // Ancho deseado
+              height={250} // Alto deseado
+              quality={75} // Ajustar calidad (de 1 a 100)
             />
           </Box>
           <Typography
@@ -195,7 +254,7 @@ export default function DeliveryOrderPage() {
             gutterBottom
             sx={{ color: 'primary.main' }}
           >
-            El Kebab de Iñaki
+            ¡Haz tu pedido ahora!
           </Typography>
         </Box>
         <Grid container spacing={4}>
@@ -236,7 +295,7 @@ export default function DeliveryOrderPage() {
               </Grid>
             </Paper>
           </Grid>
-          <Grid item xs={12} md={5}>
+          <Grid item xs={12} md={5} ref={summaryRef}>
             <Paper elevation={0} sx={{ p: 3, borderRadius: 4 }}>
               <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
                 Resumen de Pedido
@@ -298,8 +357,8 @@ export default function DeliveryOrderPage() {
                   row
                   sx={{ mb: 2 }}
                 >
-                  <FormControlLabel value="efectivo" control={<Radio />} label="Pago en efectivo" />
-                  <FormControlLabel value="tarjeta" control={<Radio />} label="Pago con tarjeta" />
+                  <FormControlLabel value="efectivo" control={<Radio />} label="Pago en caja" />
+                  <FormControlLabel value="tarjeta" control={<Radio />} label="Pago online" />
                 </RadioGroup>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                   <FormControlLabel

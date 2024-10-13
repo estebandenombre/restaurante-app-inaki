@@ -198,13 +198,9 @@ function CashPaymentPage() {
         <ThemeProvider theme={theme}>
             <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
                 <Paper elevation={3} sx={{ p: 4, borderRadius: 2, backgroundColor: '#fafafa' }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                        <img src="/logo.png" alt="Logo" style={{ width: '100px', marginRight: '10px' }} />
-                        <Typography variant="h4" component="h1" color="primary.main">
-                            Resumen del Pedido
-                        </Typography>
+                    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb: 3 }}>
+                        <img src="/logo.png" alt="Logo" style={{ width: '150px' }} />
                     </Box>
-
                     <Typography variant="h5" gutterBottom sx={{ color: '#933e36' }}>
                         {restaurantInfo.name}
                     </Typography>
