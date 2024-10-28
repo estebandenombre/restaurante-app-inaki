@@ -61,8 +61,8 @@ interface Order {
 
 // Información ficticia del restaurante
 const restaurantInfo = {
-    name: 'El Kebab de Iñaki',
-    address: 'C/ Conde Altea n°57',
+    name: 'La casa de Comidas',
+    address: 'C/ de José María Haro, 6, Algirós, 46022 Valencia',
     phone: '+34 912 345 678',
 };
 
