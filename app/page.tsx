@@ -54,12 +54,12 @@ interface OrderItem extends MenuItem {
 }
 
 const menuItems: MenuItem[] = [
-  { id: 'k1', name: 'Kebab de Pollo', price: 5.50, description: 'Delicioso kebab de pollo con verduras frescas' },
-  { id: 'k2', name: 'Kebab de Ternera', price: 6.00, description: 'Sabroso kebab de ternera con salsa especial' },
-  { id: 'k3', name: 'Falafel', price: 5.00, description: 'Croquetas de garbanzos con especias orientales' },
-  { id: 'd1', name: 'Durum de Pollo', price: 6.50, description: 'Wrap de pollo con verduras y salsas' },
-  { id: 'd2', name: 'Durum de Ternera', price: 7.00, description: 'Wrap de ternera con verduras y salsas' },
-  { id: 's1', name: 'Ensalada Kebab', price: 4.50, description: 'Ensalada fresca con trozos de kebab' },
+  { id: 't1', name: 'Tortilla de Patatas', price: 3.50, description: 'Clásica tortilla española con cebolla' },
+  { id: 'g1', name: 'Gazpacho', price: 4.00, description: 'Sopa fría de tomate, pepino y pimiento' },
+  { id: 'p1', name: 'Paella', price: 12.00, description: 'Arroz con pollo, conejo y verduras' },
+  { id: 'c1', name: 'Croquetas de Jamón', price: 6.00, description: 'Cremosas croquetas de jamón ibérico' },
+  { id: 'b2', name: 'Bocadillo de Calamares', price: 5.50, description: 'Calamares fritos en pan crujiente' },
+  { id: 'e1', name: 'Ensaladilla Rusa', price: 4.00, description: 'Ensalada de patata, zanahoria y mayonesa' },
   { id: 'b1', name: 'Bebida', price: 1.50, description: 'Refresco a elegir' },
 ];
 
