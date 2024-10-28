@@ -455,7 +455,13 @@ export default function Dashboard() {
     return (
         <ThemeProvider theme={theme}>
             <Box sx={{ flexGrow: 1 }}>
-
+                <AppBar position="static">
+                    <Toolbar>
+                        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                            Panel de Control
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
                 <Tabs
                     value={activeTab}
                     onChange={handleTabChange}
