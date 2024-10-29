@@ -31,7 +31,7 @@ import Image from 'next/image';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#933e36',
+      main: '#ffc03a',
     },
     secondary: {
       main: '#e74c3c',
@@ -254,7 +254,7 @@ export default function DeliveryOrderPage() {
             gutterBottom
             sx={{ color: 'primary.main' }}
           >
-            ¡Haz tu pedido ahora!
+            CASA LOLY
           </Typography>
         </Box>
         <Grid container spacing={4}>

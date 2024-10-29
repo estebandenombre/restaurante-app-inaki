@@ -23,7 +23,7 @@ import logo from '../../public/logo.png'; // Importar el logo
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#933e36',
+            main: '#ffc03a',
         },
         secondary: {
             main: '#e74c3c',
