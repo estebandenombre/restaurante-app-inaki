@@ -54,14 +54,18 @@ interface OrderItem extends MenuItem {
 }
 
 const menuItems: MenuItem[] = [
-  { id: 't1', name: 'Tortilla de Patatas', price: 3.50, description: 'Clásica tortilla española con cebolla' },
-  { id: 'g1', name: 'Gazpacho', price: 4.00, description: 'Sopa fría de tomate, pepino y pimiento' },
-  { id: 'p1', name: 'Paella', price: 12.00, description: 'Arroz con pollo, conejo y verduras' },
-  { id: 'c1', name: 'Croquetas de Jamón', price: 6.00, description: 'Cremosas croquetas de jamón ibérico' },
-  { id: 'b2', name: 'Bocadillo de Calamares', price: 5.50, description: 'Calamares fritos en pan crujiente' },
-  { id: 'e1', name: 'Ensaladilla Rusa', price: 4.00, description: 'Ensalada de patata, zanahoria y mayonesa' },
-  { id: 'b1', name: 'Bebida', price: 1.50, description: 'Refresco a elegir' },
+  { id: 'pv1', name: 'Paella Valenciana', price: 14.00, description: 'Arroz tradicional valenciano con pollo, conejo y verduras' },
+  { id: 'ah1', name: 'Arroz al Horno', price: 13.00, description: 'Arroz al horno con costillas, garbanzos y morcilla' },
+  { id: 'f1', name: 'Fideuá', price: 12.50, description: 'Fideuá de mariscos con alioli' },
+  { id: 'pbc1', name: 'Paella de Bacalao y Coliflor', price: 13.50, description: 'Paella con bacalao, coliflor y garbanzos' },
+  { id: 'an1', name: 'Arroz Negro', price: 12.50, description: 'Arroz negro con calamares y alioli' },
+  { id: 'cc1', name: 'Codillo Confitado al Horno', price: 15.00, description: 'Codillo de cerdo confitado al horno' },
+  { id: 'aj1', name: 'Albóndigas a la Jardinera', price: 10.00, description: 'Albóndigas caseras con verduras frescas' },
+  { id: 'pg1', name: 'Pulpo a la Gallega', price: 14.00, description: 'Pulpo con pimentón, sal gruesa y aceite de oliva' },
+  { id: 'epm1', name: 'Ensalada de Piña con Marisco', price: 8.50, description: 'Ensalada fresca de piña, gambas y mariscos variados' },
+  { id: 'cb1', name: 'Costillas a la Barbacoa', price: 12.00, description: 'Costillas de cerdo a la barbacoa' }
 ];
+
 
 export default function DeliveryOrderPage() {
   const router = useRouter();
@@ -254,7 +258,7 @@ export default function DeliveryOrderPage() {
             gutterBottom
             sx={{ color: 'primary.main' }}
           >
-            CASA LOLY
+            ¡HAZ YA TU PEDIDO!
           </Typography>
         </Box>
         <Grid container spacing={4}>
