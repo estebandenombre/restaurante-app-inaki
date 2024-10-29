@@ -374,8 +374,12 @@ export default function DeliveryOrderPage() {
                       value={pickupDateTime}
                       onChange={(e) => setPickupDateTime(e.target.value)}
                       sx={{ ml: 2 }}
+                      inputProps={{
+                        min: new Date().toISOString().slice(0, 16) // Establece la fecha y hora mínima
+                      }}
                     />
                   )}
+
                 </Box>
                 <Button
                   variant="contained"

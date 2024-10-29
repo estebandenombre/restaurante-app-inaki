@@ -477,7 +477,78 @@ export default function Dashboard() {
                     <Tab icon={<Archive />} label="Pedidos Entregados" />
                 </Tabs>
                 <Container maxWidth="lg" sx={{ mt: 4 }}>
-
+                    {activeTab === 0 && (
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} md={6}>
+                                <Paper elevation={3} sx={{ p: 3, mb: 4 }}>
+                                    <Typography variant="h6" gutterBottom>
+                                        Menú
+                                    </Typography>
+                                    <List>
+                                        {menuItems.map((item) => (
+                                            <ListItem key={item.id} disablePadding>
+                                                <ListItemText
+                                                    primary={item.name}
+                                                    secondary={`${item.price.toFixed(2)} €`}
+                                                />
+                                                <IconButton edge="end" aria-label="add" onClick={() => addItemToOrder(item)}>
+                                                    <Add />
+                                                </IconButton>
+                                            </ListItem>
+                                        ))}
+                                    </List>
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <Paper elevation={3} sx={{ p: 3, mb: 4 }}>
+                                    <Typography variant="h6" gutterBottom>
+                                        Pedido Actual
+                                    </Typography>
+                                    <List>
+                                        {currentOrder.map((item) => (
+                                            <ListItem key={item.id}>
+                                                <ListItemText
+                                                    primary={item.name}
+                                                    secondary={`${item.price.toFixed(2)} € x ${item.quantity}`}
+                                                />
+                                                <IconButton edge="end" aria-label="add" onClick={() => addItemToOrder(item)}>
+                                                    <Add />
+                                                </IconButton>
+                                                <IconButton edge="end" aria-label="remove" onClick={() => removeItemFromOrder(item.id)}>
+                                                    <Remove />
+                                                </IconButton>
+                                                <IconButton edge="end" aria-label="delete" onClick={() => deleteItemFromOrder(item.id)}>
+                                                    <Delete />
+                                                </IconButton>
+                                            </ListItem>
+                                        ))}
+                                    </List>
+                                    <Divider sx={{ my: 2 }} />
+                                    <Typography variant="h6">
+                                        Total: {calculateTotal(currentOrder)} €
+                                    </Typography>
+                                    <TextField
+                                        fullWidth
+                                        label="Notación del pedido"
+                                        variant="outlined"
+                                        value={orderNotation}
+                                        onChange={(e) => setOrderNotation(e.target.value)}
+                                        margin="normal"
+                                    />
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        fullWidth
+                                        onClick={handleSubmitOrder}
+                                        disabled={currentOrder.length === 0}
+                                        sx={{ mt: 2 }}
+                                    >
+                                        Enviar Pedido
+                                    </Button>
+                                </Paper>
+                            </Grid>
+                        </Grid>
+                    )}
                     {activeTab === 1 && (
                         <Grid container spacing={3}>
                             {orders
