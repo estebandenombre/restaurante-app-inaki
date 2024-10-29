@@ -30,7 +30,7 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#1976d2',
+            main: '#FFD700 ',
         },
         secondary: {
             main: '#dc004e',
