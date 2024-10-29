@@ -31,7 +31,7 @@ import Image from 'next/image';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#FFD700',
+      main: '#FFC03A',
     },
     secondary: {
       main: '#e74c3c',
@@ -275,7 +275,7 @@ export default function DeliveryOrderPage() {
                           {item.description}
                         </Typography>
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 2 }}>
-                          <Typography variant="h6" color="primary">
+                          <Typography variant="h6" color="secundary">
                             {item.price.toFixed(2)} €
                           </Typography>
                           <Button
