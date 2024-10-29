@@ -24,7 +24,7 @@ import { jsPDF } from 'jspdf';
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#FFD700 ',
+            main: '#FFD700',
         },
         secondary: {
             main: '#e74c3c',
