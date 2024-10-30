@@ -46,6 +46,8 @@ import {
     Warning as WarningIcon,
     Check,
 } from '@mui/icons-material';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 
 const theme = createTheme({
     palette: {
@@ -761,6 +763,10 @@ export default function Dashboard() {
                                                     Listo hace: {getTimeDifference(order.timestamp)}
                                                 </Typography>
                                             </Box>
+                                            <Typography variant="body2" component="h2">
+                                                Fecha Entrega: {order.pickupDateTime ? `${new Date(order.pickupDateTime).getDate()} de ${new Date(order.pickupDateTime).toLocaleString('es-ES', { month: 'long' })} de ${new Date(order.pickupDateTime).getFullYear()} a las ${new Date(order.pickupDateTime).getHours().toString().padStart(2, '0')}:${new Date(order.pickupDateTime).getMinutes().toString().padStart(2, '0')}` : 'No disponible'}
+
+                                            </Typography>
                                             {order.notation && (
                                                 <Box sx={{ display: 'flex', alignItems: 'center', mt: 1, mb: 2, backgroundColor: 'rgba(0, 0, 0, 0.04)', p: 1, borderRadius: 1 }}>
                                                     <WarningIcon color="warning" sx={{ mr: 1 }} />
