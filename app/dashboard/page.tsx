@@ -416,18 +416,31 @@ export default function Dashboard() {
                 (!endDate || orderDate <= new Date(endDate));
             return order.status === 'entregado' && isInRange;
         });
-    // Función para calcular el tiempo restante o el retraso
     const getTimeRemaining = (pickupDate: Date): string => {
         const now = new Date();
         const timeDiff = pickupDate.getTime() - now.getTime(); // Diferencia en milisegundos
 
         if (timeDiff < 0) {
             const lateMinutes = Math.ceil(-timeDiff / (1000 * 60)); // Calcular los minutos de retraso
-            return `${lateMinutes} minutos tarde`; // Retorno de tiempo de retraso
+            return `${lateMinutes} minutos tarde`;
         }
 
-        const minutes = Math.floor(timeDiff / (1000 * 60)); // Calcular los minutos restantes
-        return `Quedan ${minutes} minutos para que se recoja`; // Retorno de tiempo restante
+        const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+
+        let remainingTime = "";
+        if (days > 0) {
+            remainingTime += `${days} día${days > 1 ? 's' : ''} `;
+        }
+        if (hours > 0) {
+            remainingTime += `${hours} hora${hours > 1 ? 's' : ''} `;
+        }
+        if (minutes > 0) {
+            remainingTime += `${minutes} minuto${minutes > 1 ? 's' : ''} `;
+        }
+
+        return `Quedan ${remainingTime}para que se recoja`;
     };
     // Función para calcular cuánto tiempo ha pasado desde el registro
     const getTimeSinceRegistered = (timestamp: string): string => {

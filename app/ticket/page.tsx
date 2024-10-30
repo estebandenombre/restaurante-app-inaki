@@ -107,7 +107,7 @@ const TicketPage: React.FC = () => {
     const [pickupDateTime, setPickupDateTime] = useState<string | null>(null);
     const [items, setItems] = useState<PedidoItem[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
-
+    const [hasPostedOrder, setHasPostedOrder] = useState(false);
 
     useEffect(() => {
         const id = searchParams.get('orderId');
@@ -162,47 +162,38 @@ const TicketPage: React.FC = () => {
                 return;
             }
 
-            // Verificar si la orden ya existe
-            try {
-                const checkResponse = await fetch(`/api/orders/${orderId}`);
-                if (!checkResponse.ok) {
-                    throw new Error("Error al verificar la existencia de la orden.");
-                }
-
-                const existingOrder = await checkResponse.json();
-
-                // Si la orden ya existe, no proceder con el POST
-                if (existingOrder) {
-                    console.log("La orden ya existe:", existingOrder);
-                    setLoading(false);
-                    return;
-                }
-            } catch (error: unknown) {
-                if (error instanceof Error) {
-                    console.error('Error verificando la orden:', error.message);
-                } else {
-                    console.error('Error verificando la orden:', error);
-                }
+            if (hasPostedOrder) {
                 setLoading(false);
                 return;
             }
 
-            const orderData: Pedido = {
-                id: orderId!,
-                items,
-                total: total || "0",
-                status: 'pendiente',
-                timestamp: new Date().toISOString(),
-                notation: notation || undefined,
-                customerName: customerName || undefined,
-                customerPhone: customerPhone || undefined,
-                pickupDateTime: pickupDateTime || undefined,
-                isDelivery,
-                paid: true
-            };
-
             try {
-                const response = await fetch("/api/orders", {
+                // Verificar si la orden ya existe
+                const response = await fetch(`/api/orders/${orderId}`);
+                if (response.ok) {
+                    const existingOrder = await response.json();
+                    if (existingOrder.data) {
+                        console.error('La orden ya existe:', existingOrder.data);
+                        setLoading(false);
+                        return; // Salir si la orden ya existe
+                    }
+                }
+
+                const orderData: Pedido = {
+                    id: orderId!,
+                    items,
+                    total: total || "0",
+                    status: 'pendiente',
+                    timestamp: new Date().toISOString(),
+                    notation: notation || undefined,
+                    customerName: customerName || undefined,
+                    customerPhone: customerPhone || undefined,
+                    pickupDateTime: pickupDateTime || undefined,
+                    isDelivery,
+                    paid: true
+                };
+
+                const postResponse = await fetch("/api/orders", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -210,12 +201,13 @@ const TicketPage: React.FC = () => {
                     body: JSON.stringify(orderData),
                 });
 
-                if (!response.ok) {
+                if (!postResponse.ok) {
                     throw new Error("Error al guardar la orden.");
                 }
 
-                const result = await response.json();
+                const result = await postResponse.json();
                 console.log("Orden guardada:", result);
+                setHasPostedOrder(true);
 
             } catch (error: unknown) {
                 if (error instanceof Error) {
@@ -229,7 +221,7 @@ const TicketPage: React.FC = () => {
         };
 
         handlePostOrder();
-    }, [orderId, total, customerName, customerPhone, notation, isDelivery, pickupDateTime, items]);
+    }, [hasPostedOrder, orderId, total, customerName, customerPhone, notation, isDelivery, pickupDateTime, items]);
 
     const handleDownloadReceipt = async () => {
         if (!orderId) return;
