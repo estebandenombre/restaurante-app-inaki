@@ -37,6 +37,9 @@ const styles = {
     phone: {
         color: '#555', // Color del teléfono
     },
+    phoneText: {
+        color: '#555', // Color del teléfono
+    },
 };
 
 // Definición de la paleta de colores
