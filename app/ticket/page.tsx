@@ -66,9 +66,9 @@ interface Pedido {
 
 // Información ficticia del restaurante
 const restaurantInfo = {
-    name: 'La casa de Comidas',
-    address: 'C/ de José María Haro, 6, Algirós, 46022 Valencia',
-    phone: '+34 912 345 678',
+    name: 'CASA LOLY - COMIDAS PARA LLEVAR',
+    address: 'Carrer de Pere de València, 46022 València, Valencia, España',
+    phone: '+34 962023339',
 };
 
 const TicketPage: React.FC = () => {
@@ -185,55 +185,55 @@ const TicketPage: React.FC = () => {
     }, [orderId, total, customerName, customerPhone, notation, isDelivery, pickupDateTime, items]);
 
     const handleDownloadReceipt = async () => {
-        if (!orderId) return;
+        if (!order) return;
 
         const doc = new jsPDF();
-        const margin = 20;
+        const margin = 10;
         const yStart = margin + 10;
 
         // Cargar el logo y agregarlo al PDF
-        const logoImg = await loadImage('/logo.png') as HTMLImageElement; // Ajusta la ruta de la imagen según sea necesario
-        doc.addImage(logoImg, 'PNG', margin, yStart, 40, 40); // Ajustar la posición y tamaño del logo
+        const logoImg = await loadImage(logo.src) as HTMLImageElement; // Asegúrate de que sea un HTMLImageElement
+        doc.addImage(logoImg, 'PNG', margin, yStart, 40, 40); // Ajustar el tamaño y posición del logo
 
         // Agregar la información del restaurante al recibo
         doc.setFont('Helvetica', 'bold');
         doc.setFontSize(22);
-        doc.setTextColor('#933e36');
-        doc.text(restaurantInfo.name, margin, yStart + 50);
+        doc.setTextColor('#FFC03A');
+        doc.text(restaurantInfo.name, margin, yStart + 60); // Ajustar la posición
 
         doc.setFont('Helvetica', 'normal');
         doc.setFontSize(12);
         doc.setTextColor('#555');
-        doc.text(restaurantInfo.address, margin, yStart + 60);
-        doc.text(`Teléfono: ${restaurantInfo.phone}`, margin, yStart + 70);
+        doc.text(restaurantInfo.address, margin, yStart + 70);
+        doc.text(`Teléfono: ${restaurantInfo.phone}`, margin, yStart + 80);
 
         // Agregar detalles del pedido
         doc.setFont('Helvetica', 'bold');
         doc.setFontSize(18);
-        doc.setTextColor('#933e36');
-        doc.text('Recibo de Pedido', margin, yStart + 90);
+        doc.setTextColor('black');
+        doc.text('Recibo de Pedido', margin, yStart + 100);
 
         doc.setFont('Helvetica', 'normal');
         doc.setFontSize(12);
         doc.setTextColor('#2c3e50');
-        doc.text(`ID de Pedido: ${orderId}`, margin, yStart + 100);
-        doc.text(`Nombre: ${customerName}`, margin, yStart + 110);
-        doc.text(`Teléfono: ${customerPhone}`, margin, yStart + 120);
+        doc.text(`ID de Pedido: ${order.id}`, margin, yStart + 110);
+        doc.text(`Nombre: ${order.customerName}`, margin, yStart + 120);
+        doc.text(`Teléfono: ${order.customerPhone}`, margin, yStart + 130);
 
         // Agregar línea divisoria
         doc.setDrawColor(0, 0, 0);
         doc.setLineWidth(0.5);
-        doc.line(margin, yStart + 130, 190 - margin, yStart + 130);
+        doc.line(margin, yStart + 140, 190 - margin, yStart + 140); // Línea horizontal
 
         // Agregar lista de artículos
         doc.setFont('Helvetica', 'bold');
-        doc.setTextColor('#933e36');
-        doc.text('Artículos:', margin, yStart + 140);
+        doc.setTextColor('black');
+        doc.text('Artículos:', margin, yStart + 150);
         doc.setFont('Helvetica', 'normal');
         doc.setTextColor('#2c3e50');
 
-        items.forEach((item, index) => {
-            const itemPosition = yStart + 150 + index * 10; // Ajustar posición
+        order.items.forEach((item, index) => {
+            const itemPosition = yStart + 160 + index * 10; // Ajustar posición
             doc.text(
                 `${item.name} x${item.quantity} - ${(item.price * item.quantity).toFixed(2)}€`,
                 margin,
@@ -241,15 +241,15 @@ const TicketPage: React.FC = () => {
             );
         });
 
-        const finalYPosition = yStart + 150 + items.length * 10 + 10;
+        const finalYPosition = yStart + 160 + order.items.length * 10 + 10;
         doc.setFont('Helvetica', 'bold');
-        doc.setTextColor('#933e36');
-        doc.text(`Total: ${total}€`, margin, finalYPosition);
+        doc.setTextColor('black');
+        doc.text(`Total: ${order.total}€`, margin, finalYPosition);
 
-        if (notation) {
+        if (order.notation) {
             doc.setFont('Helvetica', 'normal');
             doc.setTextColor('#555');
-            doc.text(`Notas: ${notation}`, margin, finalYPosition + 10);
+            doc.text(`Notas: ${order.notation}`, margin, finalYPosition + 10);
         }
 
         doc.setFontSize(10);
@@ -257,7 +257,7 @@ const TicketPage: React.FC = () => {
         doc.text('Gracias por su compra. ¡Esperamos verle de nuevo!', margin, finalYPosition + 30);
 
         // Descargar el PDF
-        doc.save(`recibo_${orderId}.pdf`);
+        doc.save(`recibo_${order.id}.pdf`);
     };
 
     const loadImage = (url: string): Promise<HTMLImageElement> => {
