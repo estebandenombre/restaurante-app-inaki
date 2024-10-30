@@ -376,13 +376,33 @@ export default function DeliveryOrderPage() {
                       type="datetime-local"
                       fullWidth
                       value={pickupDateTime}
-                      onChange={(e) => setPickupDateTime(e.target.value)}
+                      onChange={(e) => {
+                        const selectedDate = new Date(e.target.value);
+
+                        // Verifica si el día es entre martes (2) y domingo (0)
+                        const dayOfWeek = selectedDate.getDay();
+                        if (dayOfWeek === 1) { // Lunes
+                          alert("El horario de recogida es de martes a domingo.");
+                          return;
+                        }
+
+                        // Verifica si la hora está dentro del rango de 11:00 am y 4:00 pm
+                        const hours = selectedDate.getHours();
+                        if (hours < 11 || hours >= 16) {
+                          alert("El horario de recogida es solo entre 11:00 am y 4:00 pm.");
+                          return;
+                        }
+
+                        // Establece la fecha y hora si cumple con las restricciones
+                        setPickupDateTime(e.target.value);
+                      }}
                       sx={{ ml: 2 }}
                       inputProps={{
-                        min: new Date().toISOString().slice(0, 16) // Establece la fecha y hora mínima
+                        min: new Date().toISOString().slice(0, 16) // Fecha y hora mínima
                       }}
                     />
                   )}
+
 
                 </Box>
                 <Button
