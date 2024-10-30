@@ -20,6 +20,30 @@ import {
 import { Download } from '@mui/icons-material';
 import { jsPDF } from 'jspdf';
 
+const styles = {
+    container: {
+        padding: '16px',
+        color: '#FFC03A',
+    },
+    name: {
+        marginBottom: '8px',
+        color: 'black', // Color del nombre del restaurante
+    },
+    addressLink: {
+        textDecoration: 'none', // Quitar el subrayado del enlace
+        color: '#FFC03A', // Color del enlace
+    },
+    address: {
+        color: '#555', // Color de la dirección
+    },
+    phone: {
+        color: '#555', // Color del teléfono
+    },
+    phoneText: {
+        color: '#555', // Color del teléfono
+    },
+};
+
 // Definición de la paleta de colores
 const theme = createTheme({
     palette: {
@@ -292,24 +316,30 @@ const TicketPage: React.FC = () => {
                         <img src="/logo.png" alt="Logo" style={{ width: '150px' }} />
                     </Box>
 
-                    <Typography variant="h5" gutterBottom sx={{ color: '#933e36' }}>
-                        {restaurantInfo.name}
-                    </Typography>
-                    <Typography variant="body1" sx={{ color: '#555' }}>
-                        {restaurantInfo.address}
-                    </Typography>
-                    <Typography variant="body1" paragraph sx={{ color: '#555' }}>
-                        Teléfono: {restaurantInfo.phone}
-                    </Typography>
+                    <div style={styles.container}>
+                        <h5 style={styles.name}>{restaurantInfo.name}</h5>
+                        <a
+                            href={`https://maps.google.com/?q=${encodeURIComponent(restaurantInfo.address)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={styles.addressLink}
+                        >
+                            <p style={styles.address}>{restaurantInfo.address}</p>
+                        </a>
+                        <a href={`tel:${restaurantInfo.phone}`} style={styles.phone}>
+                            <p style={styles.phoneText}>Teléfono: {restaurantInfo.phone}</p>
+                        </a>
+                    </div>
 
                     <Box
                         sx={{
                             mb: 3,
                             p: 3,
-                            border: '1px solid rgba(0, 0, 0, 0.1)',
+                            border: '1px solid rgba(255, 192, 58, 0.1)', // Borde en tono amarillo claro
                             borderRadius: 2,
-                            backgroundColor: 'rgba(147, 62, 54, 0.1)',
-                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+                            backgroundColor: 'black', // Fondo negro
+                            color: '#FFC03A', // Color de texto amarillo
+                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)', // Sombra negra sutil
                         }}
                     >
 
@@ -335,7 +365,7 @@ const TicketPage: React.FC = () => {
                         ))}
                     </List>
                     <Divider sx={{ my: 2 }} />
-                    <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                    <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'black' }}>
                         Total: {total}€
                     </Typography>
                     {notation && (
