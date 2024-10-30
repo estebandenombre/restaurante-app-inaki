@@ -165,35 +165,3 @@ export const DELETE = async (request: Request) => {
         return NextResponse.json({ error: "Error desconocido" }, { status: 500 });
     }
 };
-// GET request: Obtener un pedido por su ID
-export const GET_BY_ID = async (request: Request) => {
-    try {
-        await connect(); // Conectar a la base de datos
-
-        const { searchParams } = new URL(request.url);
-        const id = searchParams.get('id');
-
-        if (!id) {
-            return NextResponse.json({ error: "Se requiere un ID para obtener el pedido" }, { status: 400 });
-        }
-
-        // Buscar el pedido por ID
-        const pedido = await PedidoModel.findOne({ id: id }).exec();
-
-        if (!pedido) {
-            return NextResponse.json({ message: "Pedido no encontrado" }, { status: 404 });
-        }
-
-        // Responder con el pedido encontrado
-        return NextResponse.json({
-            message: "Pedido recuperado con éxito",
-            data: pedido,
-        }, { status: 200 });
-    } catch (error: unknown) {
-        if (error instanceof Error) {
-            console.error("Error recuperando pedido:", error.message);
-            return NextResponse.json({ error: "Error recuperando pedido: " + error.message }, { status: 500 });
-        }
-        return NextResponse.json({ error: "Error desconocido" }, { status: 500 });
-    }
-};
