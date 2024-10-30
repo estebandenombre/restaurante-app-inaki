@@ -23,10 +23,14 @@ import {
   FormControlLabel,
   Radio,
   Checkbox,
+  Link as MuiLink,
+  Stack,
 } from '@mui/material';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
 import { Add, Remove, Delete } from '@mui/icons-material';
 import Image from 'next/image';
+import LocationOnIcon from '@mui/icons-material/LocationOn'
+import PhoneIcon from '@mui/icons-material/Phone'
 
 const theme = createTheme({
   palette: {
@@ -65,6 +69,40 @@ const menuItems: MenuItem[] = [
   { id: 'epm1', name: 'Ensalada de Piña con Marisco', price: 8.50, description: 'Ensalada fresca de piña, gambas y mariscos variados' },
   { id: 'cb1', name: 'Costillas a la Barbacoa', price: 12.00, description: 'Costillas de cerdo a la barbacoa' }
 ];
+// Styled components
+const FooterRoot = styled(Box)(({ theme }) => ({
+  backgroundColor: '#000000',
+  color: '#ffffff',
+  padding: theme.spacing(6, 2),
+  [theme.breakpoints.up('md')]: {
+    padding: theme.spacing(6, 3),
+  },
+}))
+
+const FooterTitle = styled(Typography)(({ theme }) => ({
+  fontWeight: 700,
+  letterSpacing: '0.5px',
+  marginBottom: theme.spacing(3),
+  textAlign: 'center',
+}))
+
+const ContactLink = styled(MuiLink)(({ theme }) => ({
+  color: theme.palette.grey[300],
+  display: 'flex',
+  alignItems: 'center',
+  gap: theme.spacing(1),
+  textDecoration: 'none',
+  transition: 'color 0.2s',
+  '&:hover': {
+    color: '#ffffff',
+  },
+}))
+
+const IconWrapper = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  color: theme.palette.grey[400],
+}))
 
 
 export default function DeliveryOrderPage() {
@@ -424,6 +462,37 @@ export default function DeliveryOrderPage() {
           onClose={() => setSnackbarOpen(false)}
           message={snackbarMessage}
         />
+        <FooterRoot>
+          <Container maxWidth="lg">
+            <Stack spacing={3} alignItems="center">
+              <FooterTitle variant="h4">
+                CASA LOLY-COMIDAS PARA LLEVAR
+              </FooterTitle>
+              <Stack spacing={2} alignItems="center">
+                <ContactLink
+                  href="https://maps.google.com/?q=Carrer de Pere de València, 46022 València, Valencia, España"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <IconWrapper>
+                    <LocationOnIcon />
+                  </IconWrapper>
+                  <Typography variant="body1">
+                    Carrer de Pere de València, 46022 València, Valencia, España
+                  </Typography>
+                </ContactLink>
+                <ContactLink href="tel:962023339">
+                  <IconWrapper>
+                    <PhoneIcon />
+                  </IconWrapper>
+                  <Typography variant="body1">
+                    962023339
+                  </Typography>
+                </ContactLink>
+              </Stack>
+            </Stack>
+          </Container>
+        </FooterRoot>
       </Container>
     </ThemeProvider>
   );
