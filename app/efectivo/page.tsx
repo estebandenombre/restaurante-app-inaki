@@ -18,6 +18,26 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Download } from '@mui/icons-material';
 import jsPDF from 'jspdf';
 import logo from '../../public/logo.png'; // Importar el logo
+const styles = {
+    container: {
+        padding: '16px',
+        color: '#FFC03A',
+    },
+    name: {
+        marginBottom: '8px',
+        color: 'black', // Color del nombre del restaurante
+    },
+    addressLink: {
+        textDecoration: 'none', // Quitar el subrayado del enlace
+        color: '#FFC03A', // Color del enlace
+    },
+    address: {
+        color: '#555', // Color de la dirección
+    },
+    phone: {
+        color: '#555', // Color del teléfono
+    },
+};
 
 // Definición de la paleta de colores
 const theme = createTheme({
@@ -61,7 +81,7 @@ interface Order {
 
 // Información ficticia del restaurante
 const restaurantInfo = {
-    name: 'La casa de Comidas',
+    name: 'CASA LOLY',
     address: 'C/ de José María Haro, 6, Algirós, 46022 Valencia',
     phone: '+34 912 345 678',
 };
@@ -201,15 +221,20 @@ function CashPaymentPage() {
                     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb: 3 }}>
                         <img src="/logo.png" alt="Logo" style={{ width: '150px' }} />
                     </Box>
-                    <Typography variant="h5" gutterBottom sx={{ color: 'black' }}>
-                        {restaurantInfo.name}
-                    </Typography>
-                    <Typography variant="body1" sx={{ color: '#555' }}>
-                        {restaurantInfo.address}
-                    </Typography>
-                    <Typography variant="body1" paragraph sx={{ color: '#555' }}>
-                        Teléfono: {restaurantInfo.phone}
-                    </Typography>
+                    <div style={styles.container}>
+                        <h5 style={styles.name}>{restaurantInfo.name}</h5>
+                        <a
+                            href={`https://maps.google.com/?q=${encodeURIComponent(restaurantInfo.address)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={styles.addressLink}
+                        >
+                            <p style={styles.address}>{restaurantInfo.address}</p>
+                        </a>
+                        <a href={`tel:${restaurantInfo.phone}`} style={styles.phone}>
+                            <p style={styles.phoneText}>Teléfono: {restaurantInfo.phone}</p>
+                        </a>
+                    </div>
 
                     <Box
                         sx={{
