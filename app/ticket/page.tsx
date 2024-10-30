@@ -158,7 +158,31 @@ const TicketPage: React.FC = () => {
     useEffect(() => {
         const handlePostOrder = async () => {
             if (!orderId || !items.length) {
+                setLoading(false);
+                return;
+            }
 
+            // Verificar si la orden ya existe
+            try {
+                const checkResponse = await fetch(`/api/orders/${orderId}`);
+                if (!checkResponse.ok) {
+                    throw new Error("Error al verificar la existencia de la orden.");
+                }
+
+                const existingOrder = await checkResponse.json();
+
+                // Si la orden ya existe, no proceder con el POST
+                if (existingOrder) {
+                    console.log("La orden ya existe:", existingOrder);
+                    setLoading(false);
+                    return;
+                }
+            } catch (error: unknown) {
+                if (error instanceof Error) {
+                    console.error('Error verificando la orden:', error.message);
+                } else {
+                    console.error('Error verificando la orden:', error);
+                }
                 setLoading(false);
                 return;
             }
@@ -199,8 +223,7 @@ const TicketPage: React.FC = () => {
                 } else {
                     console.error('Error creando la orden:', error);
                 }
-            }
-            finally {
+            } finally {
                 setLoading(false);
             }
         };
