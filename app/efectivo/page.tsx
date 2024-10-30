@@ -201,7 +201,7 @@ function CashPaymentPage() {
                     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb: 3 }}>
                         <img src="/logo.png" alt="Logo" style={{ width: '150px' }} />
                     </Box>
-                    <Typography variant="h5" gutterBottom sx={{ color: '#933e36' }}>
+                    <Typography variant="h5" gutterBottom sx={{ color: 'black' }}>
                         {restaurantInfo.name}
                     </Typography>
                     <Typography variant="body1" sx={{ color: '#555' }}>
@@ -215,10 +215,11 @@ function CashPaymentPage() {
                         sx={{
                             mb: 3,
                             p: 3,
-                            border: '1px solid rgba(0, 0, 0, 0.1)',
+                            border: '1px solid rgba(255, 192, 58, 0.1)', // Borde en tono amarillo claro
                             borderRadius: 2,
-                            backgroundColor: 'rgba(147, 62, 54, 0.1)',
-                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+                            backgroundColor: 'black', // Fondo negro
+                            color: '#FFC03A', // Color de texto amarillo
+                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)', // Sombra negra sutil
                         }}
                     >
                         <Typography variant="h5" gutterBottom>
@@ -243,7 +244,7 @@ function CashPaymentPage() {
                         ))}
                     </List>
                     <Divider sx={{ my: 2 }} />
-                    <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                    <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'black' }}>
                         Total: {order.total}€
                     </Typography>
                     {order.notation && (
