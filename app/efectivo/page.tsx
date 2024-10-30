@@ -84,9 +84,9 @@ interface Order {
 
 // Información ficticia del restaurante
 const restaurantInfo = {
-    name: 'CASA LOLY',
-    address: 'C/ de José María Haro, 6, Algirós, 46022 Valencia',
-    phone: '+34 912 345 678',
+    name: 'CASA LOLY - COMIDAS PARA LLEVAR',
+    address: 'Carrer de Pere de València, 46022 València, Valencia, España',
+    phone: '+34 962023339',
 };
 
 function CashPaymentPage() {
