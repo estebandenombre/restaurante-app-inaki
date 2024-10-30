@@ -80,7 +80,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ amount }) => {
             elements,
             clientSecret,
             confirmParams: {
-                return_url: `http://localhost:3000/ticket?orderId=${encodeURIComponent(orderId!)}&total=${encodeURIComponent(totalParam!)}&customerName=${encodeURIComponent(customerName!)}&customerPhone=${encodeURIComponent(customerPhone!)}&notation=${encodeURIComponent(notation!)}&isDelivery=${encodeURIComponent(isDelivery!)}&pickupDateTime=${encodeURIComponent(pickupDateTime!)}&items=${encodeURIComponent(itemsParam!)}` // Incluir items aquí
+                return_url: `https://casadecomidas.vercel.app/ticket?orderId=${encodeURIComponent(orderId!)}&total=${encodeURIComponent(totalParam!)}&customerName=${encodeURIComponent(customerName!)}&customerPhone=${encodeURIComponent(customerPhone!)}&notation=${encodeURIComponent(notation!)}&isDelivery=${encodeURIComponent(isDelivery!)}&pickupDateTime=${encodeURIComponent(pickupDateTime!)}&items=${encodeURIComponent(itemsParam!)}` // Incluir items aquí
             },
         });
 
