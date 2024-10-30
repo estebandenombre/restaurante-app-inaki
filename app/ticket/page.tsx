@@ -185,55 +185,55 @@ const TicketPage: React.FC = () => {
     }, [orderId, total, customerName, customerPhone, notation, isDelivery, pickupDateTime, items]);
 
     const handleDownloadReceipt = async () => {
-        if (!order) return;
+        if (!orderId) return;
 
         const doc = new jsPDF();
-        const margin = 10;
+        const margin = 20;
         const yStart = margin + 10;
 
         // Cargar el logo y agregarlo al PDF
-        const logoImg = await loadImage(logo.src) as HTMLImageElement; // Asegúrate de que sea un HTMLImageElement
-        doc.addImage(logoImg, 'PNG', margin, yStart, 40, 40); // Ajustar el tamaño y posición del logo
+        const logoImg = await loadImage('/logo.png') as HTMLImageElement; // Ajusta la ruta de la imagen según sea necesario
+        doc.addImage(logoImg, 'PNG', margin, yStart, 40, 40); // Ajustar la posición y tamaño del logo
 
         // Agregar la información del restaurante al recibo
         doc.setFont('Helvetica', 'bold');
         doc.setFontSize(22);
         doc.setTextColor('#FFC03A');
-        doc.text(restaurantInfo.name, margin, yStart + 60); // Ajustar la posición
+        doc.text(restaurantInfo.name, margin, yStart + 50);
 
         doc.setFont('Helvetica', 'normal');
         doc.setFontSize(12);
         doc.setTextColor('#555');
-        doc.text(restaurantInfo.address, margin, yStart + 70);
-        doc.text(`Teléfono: ${restaurantInfo.phone}`, margin, yStart + 80);
+        doc.text(restaurantInfo.address, margin, yStart + 60);
+        doc.text(`Teléfono: ${restaurantInfo.phone}`, margin, yStart + 70);
 
         // Agregar detalles del pedido
         doc.setFont('Helvetica', 'bold');
         doc.setFontSize(18);
         doc.setTextColor('black');
-        doc.text('Recibo de Pedido', margin, yStart + 100);
+        doc.text('Recibo de Pedido', margin, yStart + 90);
 
         doc.setFont('Helvetica', 'normal');
         doc.setFontSize(12);
         doc.setTextColor('#2c3e50');
-        doc.text(`ID de Pedido: ${order.id}`, margin, yStart + 110);
-        doc.text(`Nombre: ${order.customerName}`, margin, yStart + 120);
-        doc.text(`Teléfono: ${order.customerPhone}`, margin, yStart + 130);
+        doc.text(`ID de Pedido: ${orderId}`, margin, yStart + 100);
+        doc.text(`Nombre: ${customerName}`, margin, yStart + 110);
+        doc.text(`Teléfono: ${customerPhone}`, margin, yStart + 120);
 
         // Agregar línea divisoria
         doc.setDrawColor(0, 0, 0);
         doc.setLineWidth(0.5);
-        doc.line(margin, yStart + 140, 190 - margin, yStart + 140); // Línea horizontal
+        doc.line(margin, yStart + 130, 190 - margin, yStart + 130);
 
         // Agregar lista de artículos
         doc.setFont('Helvetica', 'bold');
         doc.setTextColor('black');
-        doc.text('Artículos:', margin, yStart + 150);
+        doc.text('Artículos:', margin, yStart + 140);
         doc.setFont('Helvetica', 'normal');
         doc.setTextColor('#2c3e50');
 
-        order.items.forEach((item, index) => {
-            const itemPosition = yStart + 160 + index * 10; // Ajustar posición
+        items.forEach((item, index) => {
+            const itemPosition = yStart + 150 + index * 10; // Ajustar posición
             doc.text(
                 `${item.name} x${item.quantity} - ${(item.price * item.quantity).toFixed(2)}€`,
                 margin,
@@ -241,15 +241,15 @@ const TicketPage: React.FC = () => {
             );
         });
 
-        const finalYPosition = yStart + 160 + order.items.length * 10 + 10;
+        const finalYPosition = yStart + 150 + items.length * 10 + 10;
         doc.setFont('Helvetica', 'bold');
         doc.setTextColor('black');
-        doc.text(`Total: ${order.total}€`, margin, finalYPosition);
+        doc.text(`Total: ${total}€`, margin, finalYPosition);
 
-        if (order.notation) {
+        if (notation) {
             doc.setFont('Helvetica', 'normal');
             doc.setTextColor('#555');
-            doc.text(`Notas: ${order.notation}`, margin, finalYPosition + 10);
+            doc.text(`Notas: ${notation}`, margin, finalYPosition + 10);
         }
 
         doc.setFontSize(10);
@@ -257,7 +257,7 @@ const TicketPage: React.FC = () => {
         doc.text('Gracias por su compra. ¡Esperamos verle de nuevo!', margin, finalYPosition + 30);
 
         // Descargar el PDF
-        doc.save(`recibo_${order.id}.pdf`);
+        doc.save(`recibo_${orderId}.pdf`);
     };
 
     const loadImage = (url: string): Promise<HTMLImageElement> => {
