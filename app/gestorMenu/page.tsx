@@ -16,6 +16,7 @@ import {
     IconButton,
     Box,
     Chip,
+    Skeleton, // Importa Skeleton
 } from '@mui/material';
 import { Add, Edit, Delete, Close } from '@mui/icons-material';
 
@@ -30,6 +31,7 @@ interface MenuItem {
 
 export default function GestorMenu() {
     const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+    const [loading, setLoading] = useState(true); // Estado de carga
     const [openDialog, setOpenDialog] = useState(false);
     const [currentItem, setCurrentItem] = useState<MenuItem | null>(null);
     const [snackbar, setSnackbar] = useState({ open: false, message: '' });
@@ -39,6 +41,7 @@ export default function GestorMenu() {
     }, []);
 
     const fetchMenuItems = async () => {
+        setLoading(true); // Inicia la carga
         try {
             const response = await fetch('/api/menu');
             if (!response.ok) throw new Error('Error al obtener los elementos del menú');
@@ -47,6 +50,8 @@ export default function GestorMenu() {
         } catch (error) {
             console.error('Error al obtener los elementos del menú:', error);
             setSnackbar({ open: true, message: 'Error al obtener los elementos del menú' });
+        } finally {
+            setLoading(false); // Finaliza la carga
         }
     };
 
@@ -120,51 +125,68 @@ export default function GestorMenu() {
                 Añadir Nuevo Plato
             </Button>
             <Grid container spacing={2}>
-                {menuItems.map((item) => (
-                    <Grid item xs={12} sm={6} md={4} key={item.id}>
-                        <Card>
-                            <CardContent>
-                                <Typography variant="h6" component="h2">
-                                    {item.name}
-                                </Typography>
-                                <Typography color="textSecondary" gutterBottom>
-                                    {item.description}
-                                </Typography>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
-                                    <Typography variant="h6" component="p">
-                                        {item.discount ? (
-                                            <>
-                                                <span style={{ textDecoration: 'line-through', color: 'gray', marginRight: '8px' }}>
-                                                    €{item.price.toFixed(2)}
-                                                </span>
-                                                €{calculateDiscountedPrice(item.price, item.discount).toFixed(2)}
-                                            </>
-                                        ) : (
-                                            `€${item.price.toFixed(2)}`
-                                        )}
-                                    </Typography>
-                                    {item.discount && (
-                                        <Chip label={`- ${item.discount}%`} color="secondary" size="small" />
-                                    )}
-                                </Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
-                                    <Chip
-                                        label={item.isOutOfStock ? 'Agotado' : 'Disponible'}
-                                        color={item.isOutOfStock ? 'error' : 'success'}
-                                    />
-                                    <Box>
-                                        <IconButton onClick={() => handleOpenDialog(item)} color="primary">
-                                            <Edit />
-                                        </IconButton>
-                                        <IconButton onClick={() => handleDelete(item.id!)} color="error">
-                                            <Delete />
-                                        </IconButton>
+                {loading ? ( // Muestra el esqueleto de carga mientras se cargan los datos
+                    [...Array(6)].map((_, index) => ( // Genera 6 Skeletons
+                        <Grid item xs={12} sm={6} md={4} key={index}>
+                            <Card>
+                                <CardContent>
+                                    <Skeleton variant="text" height={30} />
+                                    <Skeleton variant="text" height={20} sx={{ mt: 1 }} />
+                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
+                                        <Skeleton variant="text" height={30} width="40%" />
+                                        <Skeleton variant="rectangular" height={30} width={30} />
                                     </Box>
-                                </Box>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                ))}
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    ))
+                ) : (
+                    menuItems.map((item) => (
+                        <Grid item xs={12} sm={6} md={4} key={item.id}>
+                            <Card>
+                                <CardContent>
+                                    <Typography variant="h6" component="h2">
+                                        {item.name}
+                                    </Typography>
+                                    <Typography color="textSecondary" gutterBottom>
+                                        {item.description}
+                                    </Typography>
+                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
+                                        <Typography variant="h6" component="p">
+                                            {item.discount ? (
+                                                <>
+                                                    <span style={{ textDecoration: 'line-through', color: 'gray', marginRight: '8px' }}>
+                                                        €{item.price.toFixed(2)}
+                                                    </span>
+                                                    €{calculateDiscountedPrice(item.price, item.discount).toFixed(2)}
+                                                </>
+                                            ) : (
+                                                `€${item.price.toFixed(2)}`
+                                            )}
+                                        </Typography>
+                                        {item.discount && (
+                                            <Chip label={`- ${item.discount}%`} color="secondary" size="small" />
+                                        )}
+                                    </Box>
+                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
+                                        <Chip
+                                            label={item.isOutOfStock ? 'Agotado' : 'Disponible'}
+                                            color={item.isOutOfStock ? 'error' : 'success'}
+                                        />
+                                        <Box>
+                                            <IconButton onClick={() => handleOpenDialog(item)} color="primary">
+                                                <Edit />
+                                            </IconButton>
+                                            <IconButton onClick={() => handleDelete(item.id!)} color="error">
+                                                <Delete />
+                                            </IconButton>
+                                        </Box>
+                                    </Box>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    ))
+                )}
             </Grid>
             <Dialog open={openDialog} onClose={handleCloseDialog}>
                 <form onSubmit={handleSubmit}>
