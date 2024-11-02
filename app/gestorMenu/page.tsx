@@ -68,12 +68,14 @@ export default function GestorMenu() {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
+
+        const discountValue = formData.get('discount') as string; // Obtener el descuento como cadena
         const itemData: MenuItem = {
             name: formData.get('name') as string,
             description: formData.get('description') as string,
             price: parseFloat(formData.get('price') as string),
             isOutOfStock: formData.get('isOutOfStock') === 'true',
-            discount: parseFloat(formData.get('discount') as string) || undefined,
+            discount: discountValue === '' ? undefined : parseFloat(discountValue), // Asegura que 0 sea un valor válido
         };
 
         try {
@@ -95,6 +97,7 @@ export default function GestorMenu() {
             setSnackbar({ open: true, message: 'Error al guardar el elemento del menú' });
         }
     };
+
 
     const handleDelete = async (id: string) => {
         try {
