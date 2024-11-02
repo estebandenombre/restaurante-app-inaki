@@ -301,7 +301,8 @@ export default function DeliveryOrderPage() {
                           <Typography variant="h6" component="h2">
                             {item.name}
                           </Typography>
-                          {item.discount && (
+                          {/* Solo mostrar el Chip de descuento si el descuento es mayor a 0 */}
+                          {item.discount > 0 && (
                             <Chip
                               label={`- ${item.discount}%`}
                               color="secondary"
@@ -317,9 +318,13 @@ export default function DeliveryOrderPage() {
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
                           <Box>
                             <Typography variant="h6" component="span">
-                              {(item.price * (1 - (item.discount ? item.discount / 100 : 0))).toFixed(2)}€
+                              {/* Mostrar el precio con descuento, si hay descuento aplicable */}
+                              {item.discount > 0
+                                ? (item.price * (1 - item.discount / 100)).toFixed(2) + "€"
+                                : item.price.toFixed(2) + "€"} {/* Mostrar solo el precio normal si no hay descuento */}
                             </Typography>
-                            {item.discount && (
+                            {/* Mostrar el precio original si hay descuento */}
+                            {item.discount > 0 && (
                               <Typography
                                 variant="body2"
                                 component="span"
@@ -344,6 +349,7 @@ export default function DeliveryOrderPage() {
                     </Card>
                   </Grid>
                 ))}
+
               </Grid>
             </Paper>
           </Grid>
