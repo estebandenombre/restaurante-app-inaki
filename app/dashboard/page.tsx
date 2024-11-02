@@ -107,12 +107,10 @@ interface Order {
 export default function Dashboard() {
     const [activeTab, setActiveTab] = useState(0);
     const [orders, setOrders] = useState<Order[]>([]);
-    const [currentOrder, setCurrentOrder] = useState<OrderItem[]>([]);
     const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
-    const [orderNotation, setOrderNotation] = useState('');
     const [startDate, setStartDate] = useState<string>("");
     const [endDate, setEndDate] = useState<string>("");
 
@@ -140,17 +138,6 @@ export default function Dashboard() {
     const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
         setActiveTab(newValue);
     };
-
-
-
-
-
-
-
-    const calculateTotal = (items: OrderItem[]) => {
-        return items.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
-    };
-
 
 
     const updateOrderStatus = async (orderId: string, newStatus: 'pendiente' | 'preparando' | 'listo' | 'entregado') => {
