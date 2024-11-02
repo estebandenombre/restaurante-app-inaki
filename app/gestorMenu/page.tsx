@@ -110,9 +110,6 @@ export default function GestorMenu() {
 
     return (
         <Container maxWidth="lg">
-            <Typography variant="h4" component="h1" gutterBottom>
-                Gestor de Menú
-            </Typography>
             <Button
                 variant="contained"
                 color="primary"
@@ -120,7 +117,7 @@ export default function GestorMenu() {
                 onClick={() => handleOpenDialog()}
                 sx={{ mb: 2 }}
             >
-                Añadir Nuevo Elemento
+                Añadir Nuevo Plato
             </Button>
             <Grid container spacing={2}>
                 {menuItems.map((item) => (
