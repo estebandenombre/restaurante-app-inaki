@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import {
     Container,
     Typography,
-    Paper,
     List,
     ListItem,
     ListItemText,
@@ -26,7 +25,6 @@ import {
     Tabs,
     Tab,
     Snackbar,
-    TextField,
     Tooltip,
 } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -35,9 +33,6 @@ import {
     AccessTime,
     LocalShipping,
     Info,
-    Add,
-    Remove,
-    Delete,
     FastfoodOutlined,
     RestaurantMenu,
     Kitchen,
@@ -107,15 +102,7 @@ interface Order {
     paid?: boolean; // Indica si el pedido ha sido pagado (opcional)
 }
 
-const menuItems: MenuItem[] = [
-    { id: 'k1', name: 'Kebab de Pollo', price: 5.50 },
-    { id: 'k2', name: 'Kebab de Ternera', price: 6.00 },
-    { id: 'k3', name: 'Falafel', price: 5.00 },
-    { id: 'd1', name: 'Durum de Pollo', price: 6.50 },
-    { id: 'd2', name: 'Durum de Ternera', price: 7.00 },
-    { id: 's1', name: 'Ensalada Kebab', price: 4.50 },
-    { id: 'b1', name: 'Bebida', price: 1.50 },
-];
+
 
 export default function Dashboard() {
     const [activeTab, setActiveTab] = useState(0);
@@ -154,82 +141,17 @@ export default function Dashboard() {
         setActiveTab(newValue);
     };
 
-    const addItemToOrder = (item: MenuItem) => {
-        const existingItem = currentOrder.find((orderItem) => orderItem.id === item.id);
-        if (existingItem) {
-            setCurrentOrder(currentOrder.map((orderItem) =>
-                orderItem.id === item.id
-                    ? { ...orderItem, quantity: orderItem.quantity + 1 }
-                    : orderItem
-            ));
-        } else {
-            setCurrentOrder([...currentOrder, { ...item, quantity: 1 }]);
-        }
-    };
 
-    const removeItemFromOrder = (itemId: string) => {
-        const existingItem = currentOrder.find((orderItem) => orderItem.id === itemId);
-        if (existingItem && existingItem.quantity > 1) {
-            setCurrentOrder(currentOrder.map((orderItem) =>
-                orderItem.id === itemId
-                    ? { ...orderItem, quantity: orderItem.quantity - 1 }
-                    : orderItem
-            ));
-        } else {
-            setCurrentOrder(currentOrder.filter((orderItem) => orderItem.id !== itemId));
-        }
-    };
 
-    const deleteItemFromOrder = (itemId: string) => {
-        setCurrentOrder(currentOrder.filter((orderItem) => orderItem.id !== itemId));
-    };
+
+
+
 
     const calculateTotal = (items: OrderItem[]) => {
         return items.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
     };
 
-    const handleSubmitOrder = async () => {
-        if (currentOrder.length === 0) {
-            setSnackbarMessage('Por favor, añade items al pedido.');
-            setSnackbarOpen(true);
-            return;
-        }
 
-        const newOrder: Order = {
-            id: `ORD-${Date.now()}`,
-            items: currentOrder,
-            total: calculateTotal(currentOrder),
-            status: 'pendiente',
-            timestamp: new Date().toISOString(),
-            notation: orderNotation,
-        };
-
-        try {
-            const response = await fetch('/api/orders', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(newOrder),
-            });
-
-            if (!response.ok) {
-                throw new Error('Error creating order');
-            }
-
-            const data = await response.json();
-            setOrders([...orders, data.data]);
-            setCurrentOrder([]);
-            setOrderNotation('');
-            setActiveTab(1);
-            setSnackbarMessage('Pedido creado con éxito');
-            setSnackbarOpen(true);
-        } catch (error) {
-            console.error('Error creating order:', error);
-            setSnackbarMessage('Error al crear el pedido');
-            setSnackbarOpen(true);
-        }
-    };
 
     const updateOrderStatus = async (orderId: string, newStatus: 'pendiente' | 'preparando' | 'listo' | 'entregado') => {
         try {
