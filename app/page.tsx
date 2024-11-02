@@ -384,7 +384,7 @@ export default function DeliveryOrderPage() {
               <Divider sx={{ my: 2 }} />
               <Box component="form" sx={{ mt: 3 }}>
                 <TextField
-                  label="Nombre del Cliente"
+                  label="Nombre"
                   variant="outlined"
                   fullWidth
                   required
