@@ -302,7 +302,7 @@ export default function DeliveryOrderPage() {
                             {item.name}
                           </Typography>
                           {/* Solo mostrar el Chip de descuento si el descuento es mayor a 0 */}
-                          {item.discount > 0 && (
+                          {item.discount !== undefined && item.discount > 0 && (
                             <Chip
                               label={`- ${item.discount}%`}
                               color="secondary"
@@ -319,12 +319,12 @@ export default function DeliveryOrderPage() {
                           <Box>
                             <Typography variant="h6" component="span">
                               {/* Mostrar el precio con descuento, si hay descuento aplicable */}
-                              {item.discount > 0
+                              {item.discount !== undefined && item.discount > 0
                                 ? (item.price * (1 - item.discount / 100)).toFixed(2) + "€"
                                 : item.price.toFixed(2) + "€"} {/* Mostrar solo el precio normal si no hay descuento */}
                             </Typography>
                             {/* Mostrar el precio original si hay descuento */}
-                            {item.discount > 0 && (
+                            {item.discount !== undefined && item.discount > 0 && (
                               <Typography
                                 variant="body2"
                                 component="span"
