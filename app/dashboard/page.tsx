@@ -46,6 +46,7 @@ import {
     Warning as WarningIcon,
     Check,
 } from '@mui/icons-material';
+import GestorMenu from '../gestorMenu/page'; // Asegúrate de que la ruta sea correcta
 
 
 const theme = createTheme({
@@ -491,22 +492,7 @@ export default function Dashboard() {
                     <Tab icon={<Archive />} label="Pedidos Entregados" />
                 </Tabs>
                 <Container maxWidth="lg" sx={{ mt: 4 }}>
-                    {activeTab === 0 && (
-                        <Grid container spacing={3}>
-                            <Grid item xs={12}>
-                                <iframe
-                                    src="http://localhost:3000/gestorMenu"
-                                    style={{
-                                        width: '100%',
-                                        height: '600px', // Ajusta la altura según tus necesidades
-                                        border: 'none', // Sin borde alrededor del iframe
-                                    }}
-                                    title="Gestor Menu" // Asegúrate de dar un título al iframe para accesibilidad
-                                />
-                            </Grid>
-                        </Grid>
-                    )}
-
+                    {activeTab === 0 && <GestorMenu />}
                     {activeTab === 1 && (
                         <Grid container spacing={3}>
                             {orders
