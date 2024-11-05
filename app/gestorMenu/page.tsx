@@ -159,12 +159,12 @@ export default function GestorMenu() {
                                             {item.discount ? (
                                                 <>
                                                     <span style={{ textDecoration: 'line-through', color: 'gray', marginRight: '8px' }}>
-                                                        €{item.price.toFixed(2)}
+                                                        {item.price.toFixed(2)}€
                                                     </span>
-                                                    €{calculateDiscountedPrice(item.price, item.discount).toFixed(2)}
+                                                    {calculateDiscountedPrice(item.price, item.discount).toFixed(2)}€
                                                 </>
                                             ) : (
-                                                `€${item.price.toFixed(2)}`
+                                                `${item.price.toFixed(2)}€`
                                             )}
                                         </Typography>
                                         {item.discount && (
