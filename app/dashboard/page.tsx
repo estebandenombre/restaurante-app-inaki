@@ -427,7 +427,7 @@ export default function Dashboard() {
                                                             color={getStatusColor(order.status)}
                                                         />
                                                     </Box>
-                                                    <Typography variant="body2" component="h2">
+                                                    <Typography variant="body2" color="text.secondary">
                                                         Nombre: {order.customerName}
                                                     </Typography>
                                                     <Typography variant="body2" color="text.secondary" gutterBottom>
