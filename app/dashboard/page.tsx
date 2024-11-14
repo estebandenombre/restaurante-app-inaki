@@ -570,7 +570,7 @@ export default function Dashboard() {
                                         <CardContent>
                                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                                                 <Typography variant="h6" component="h2">
-                                                    Nombre: {order.customerName}
+                                                    Pedido: {order.id}
                                                 </Typography>
                                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                                     <Tooltip title="Información del pedido" arrow>
@@ -596,15 +596,15 @@ export default function Dashboard() {
                                                     />
                                                 </Box>
                                             </Box>
+                                            <Typography variant="body2" component="h2">
+                                                Nombre: {order.customerName}
+                                            </Typography>
                                             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                                                 <AccessTime sx={{ mr: 1, fontSize: 'small' }} />
                                                 <Typography variant="body2" color="text.secondary">
                                                     Listo hace: {getTimeDifference(order.timestamp)}
                                                 </Typography>
                                             </Box>
-                                            <Typography variant="body2" component="h2">
-                                                Pedido: {order.id}
-                                            </Typography>
                                             <Typography variant="body2" component="h2">
                                                 Fecha Entrega: {order.pickupDateTime ? `${new Date(order.pickupDateTime).getDate()} de ${new Date(order.pickupDateTime).toLocaleString('es-ES', { month: 'long' })} de ${new Date(order.pickupDateTime).getFullYear()} a las ${new Date(order.pickupDateTime).getHours().toString().padStart(2, '0')}:${new Date(order.pickupDateTime).getMinutes().toString().padStart(2, '0')}` : 'No disponible'}
 
