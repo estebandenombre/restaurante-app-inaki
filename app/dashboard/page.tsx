@@ -418,7 +418,7 @@ export default function Dashboard() {
                                                 <CardContent>
                                                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                                                         <Typography variant="h6" component="h2">
-                                                            Pedido: {order.id}
+                                                            Nombre: {order.customerName}
                                                         </Typography>
 
                                                         <Chip
@@ -428,7 +428,7 @@ export default function Dashboard() {
                                                         />
                                                     </Box>
                                                     <Typography variant="body2" color="text.secondary">
-                                                        Nombre: {order.customerName}
+                                                        Pedido: {order.id}
                                                     </Typography>
                                                     <Typography variant="body2" color="text.secondary" gutterBottom>
                                                         Hora: {new Date(order.timestamp).toLocaleTimeString()}
@@ -573,7 +573,7 @@ export default function Dashboard() {
                                         <CardContent>
                                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                                                 <Typography variant="h6" component="h2">
-                                                    Pedido: {order.id}
+                                                    Nombre: {order.customerName}
                                                 </Typography>
                                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                                     <Tooltip title="Información del pedido" arrow>
@@ -599,8 +599,8 @@ export default function Dashboard() {
                                                     />
                                                 </Box>
                                             </Box>
-                                            <Typography variant="body2" component="h2">
-                                                Nombre: {order.customerName}
+                                            <Typography variant="body2" color="text.secondary">
+                                                Pedido: {order.id}
                                             </Typography>
                                             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                                                 <AccessTime sx={{ mr: 1, fontSize: 'small' }} />
