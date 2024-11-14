@@ -486,7 +486,7 @@ export default function DeliveryOrderPage() {
               </FooterTitle>
               <Stack spacing={2} alignItems="center">
                 <ContactLink
-                  href="https://maps.google.com/?q=Carrer de Pere de València, 46022 València, Valencia, España"
+                  href="https://maps.google.com/?q=Carrer de Pere de València, 3, 46022 València, Valencia, España"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
