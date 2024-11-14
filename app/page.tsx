@@ -494,7 +494,7 @@ export default function DeliveryOrderPage() {
                     <LocationOnIcon />
                   </IconWrapper>
                   <Typography variant="body1">
-                    Carrer de Pere de València, 46022 València, Valencia, España
+                    Carrer de Pere de València, 3, 46022 València, Valencia, España
                   </Typography>
                 </ContactLink>
                 <ContactLink href="tel:962023339">
