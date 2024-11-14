@@ -420,9 +420,7 @@ export default function Dashboard() {
                                                         <Typography variant="h6" component="h2">
                                                             Pedido: {order.id}
                                                         </Typography>
-                                                        <Typography variant="h6" component="h2">
-                                                            Nombre: {order.customerName}
-                                                        </Typography>
+
                                                         <Chip
                                                             icon={getStatusIcon(order.status)}
                                                             label={order.status.charAt(0).toUpperCase() + order.status.slice(1)}
@@ -573,6 +571,9 @@ export default function Dashboard() {
                                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                                                 <Typography variant="h6" component="h2">
                                                     Pedido: {order.id}
+                                                </Typography>
+                                                <Typography variant="h6" component="h2">
+                                                    Nombre: {order.customerName}
                                                 </Typography>
                                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                                     <Tooltip title="Información del pedido" arrow>
