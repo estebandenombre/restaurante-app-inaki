@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import {
   Container,
   Typography,
@@ -26,12 +27,13 @@ import {
   Link as MuiLink,
   Stack,
   Chip,
+  Drawer,
 } from '@mui/material';
 import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
 import { Add, Remove, Delete } from '@mui/icons-material';
-import Image from 'next/image';
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import PhoneIcon from '@mui/icons-material/Phone'
+import { Mail, Clock } from 'lucide-react';
 
 const theme = createTheme({
   palette: {
@@ -110,6 +112,11 @@ export default function DeliveryOrderPage() {
   const [pickupDateTime, setPickupDateTime] = useState('');
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const summaryRef = useRef<HTMLDivElement>(null);
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
+
+  const toggleDrawer = (open: boolean) => () => {
+    setDrawerOpen(open);
+  };
 
   const fetchMenuItems = async () => {
     try {
@@ -266,26 +273,53 @@ export default function DeliveryOrderPage() {
 
   return (
     <ThemeProvider theme={theme}>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          height: 80,
+          width: '100%',
+          maxWidth: '1200px',
+          justifyContent: { xs: 'center', lg: 'flex-start' }, // Centrado en móvil, alineado a la izquierda en escritorio
+          px: { xs: 1, md: 2 }, // Ajuste de relleno horizontal
+          mx: 'auto',
+        }}
+      >
+        {/* Logo: centrado en móvil, a la izquierda en pantallas grandes */}
+        <Typography
+          component={Link}
+          href="#home"
+          sx={{
+            fontSize: '24px', // Tamaño ajustado a 24px
+            fontFamily: 'ui-serif, Georgia, Cambria, Times New Roman, Times, serif', // Mantener la fuente
+            fontWeight: 'bold',
+            color: 'inherit',
+            textDecoration: 'none',
+            position: { xs: 'absolute', lg: 'relative' }, // Centrado absoluto en móvil
+            left: { xs: '50%', lg: '0' }, // Centrado horizontal en móvil
+            transform: { xs: 'translateX(-50%)', lg: 'none' }, // Ajuste para centrar en móvil
+          }}
+        >
+          CASA LOLY
+        </Typography>
+      </Box>
+
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         <Box sx={{ textAlign: 'center', mb: 4 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-            <Image
-              src="/logo.png"
-              alt="Logo de la empresa - Nombre de la empresa"
-              width={250} // Ancho deseado
-              height={250} // Alto deseado
-              quality={75} // Ajustar calidad (de 1 a 100)
-            />
-          </Box>
           <Typography
             variant="h4"
             component="h1"
             gutterBottom
-            sx={{ color: 'primary.main' }}
+            sx={{
+              color: 'primary.main',
+              fontFamily: 'ui-serif, Georgia, Cambria, Times New Roman, Times, serif', // Aplicar la tipología
+              fontWeight: 'bold', // Asegurar el grosor
+            }}
           >
             ¡HAZ YA TU PEDIDO!
           </Typography>
         </Box>
+
         <Grid container spacing={4}>
           <Grid item xs={12} md={7}>
             <Paper elevation={0} sx={{ p: 3, borderRadius: 4 }}>
@@ -478,38 +512,145 @@ export default function DeliveryOrderPage() {
           onClose={() => setSnackbarOpen(false)}
           message={snackbarMessage}
         />
-        <FooterRoot>
-          <Container maxWidth="lg">
-            <Stack spacing={3} alignItems="center">
-              <FooterTitle variant="h4">
-                CASA LOLY-COMIDAS PARA LLEVAR
-              </FooterTitle>
-              <Stack spacing={2} alignItems="center">
-                <ContactLink
-                  href="https://maps.google.com/?q=Carrer de Pere de València, 3, 46022 València, Valencia, España"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <IconWrapper>
-                    <LocationOnIcon />
-                  </IconWrapper>
-                  <Typography variant="body1">
-                    Carrer de Pere de València, 3, 46022 València, Valencia, España
-                  </Typography>
-                </ContactLink>
-                <ContactLink href="tel:962023339">
-                  <IconWrapper>
-                    <PhoneIcon />
-                  </IconWrapper>
-                  <Typography variant="body1">
-                    962023339
-                  </Typography>
-                </ContactLink>
-              </Stack>
-            </Stack>
-          </Container>
-        </FooterRoot>
+
+
       </Container>
+      <FooterRoot sx={{ backgroundColor: 'gray.900', color: 'white', py: 6, width: '100%' }}>
+        <Container maxWidth="lg">
+          {/* Grid layout */}
+          <Stack spacing={8} direction={{ xs: 'column', md: 'row' }} justifyContent="space-between">
+            {/* Logo e Introducción */}
+            <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+              <Typography
+                variant="h4"
+                component="h2"
+                sx={{ fontFamily: 'serif', fontWeight: 'bold', color: 'green.400', mb: 2 }}
+              >
+                Casa Loly
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{ color: 'gray.400', maxWidth: '400px', mx: { xs: 'auto', md: 0 } }}
+              >
+                Disfruta de comida casera hecha con ingredientes frescos y saludables. Nuestra misión es
+                llevar sabor y calidad a tu mesa.
+              </Typography>
+            </Box>
+
+            {/* Información de Contacto */}
+            <Box>
+              <Typography
+                variant="h5"
+                component="h3"
+                sx={{ fontFamily: 'serif', fontWeight: 'bold', color: 'green.400', mb: 3 }}
+              >
+                Contacto
+              </Typography>
+              <Stack spacing={2}>
+                <Stack direction="row" spacing={2} alignItems="center">
+                  <LocationOnIcon sx={{ color: 'green.400' }} />
+                  <Typography variant="body1" sx={{ color: 'gray.400' }}>
+                    Carrer de Pere de València, 46022 València, España
+                  </Typography>
+                </Stack>
+                <Stack direction="row" spacing={2} alignItems="center">
+                  <PhoneIcon sx={{ color: 'green.400' }} />
+                  <MuiLink href="tel:962023339" sx={{ color: 'gray.400', '&:hover': { color: 'white' } }}>
+                    962 023 339
+                  </MuiLink>
+                </Stack>
+                <Stack direction="row" spacing={2} alignItems="center">
+                  <Mail sx={{ color: 'green.400' }} />
+                  <MuiLink
+                    href="mailto:yostrada@gmail.com"
+                    sx={{ color: 'gray.400', '&:hover': { color: 'white' } }}
+                  >
+                    yostrada@gmail.com
+                  </MuiLink>
+                </Stack>
+                <Stack direction="row" spacing={2} alignItems="center">
+                  <Clock sx={{ color: 'green.400' }} />
+                  <Typography variant="body1" sx={{ color: 'gray.400' }}>
+                    Martes a Domingo, 11:00 a.m. - 4:00 p.m.
+                  </Typography>
+                </Stack>
+              </Stack>
+            </Box>
+
+            {/* Botón de Hacer Pedido */}
+            <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+              <Typography
+                variant="h5"
+                component="h3"
+                sx={{ fontFamily: 'serif', fontWeight: 'bold', color: 'green.400', mb: 2 }}
+              >
+                ¿Listo para ordenar?
+              </Typography>
+              <Typography variant="body1" sx={{ color: 'gray.400', mb: 3 }}>
+                Haz tu pedido ahora y disfruta de nuestros platos caseros en la comodidad de tu hogar.
+              </Typography>
+              <Button
+                href="#order"
+                sx={{
+                  display: 'inline-block',
+                  backgroundColor: 'green.500',
+                  color: 'white',
+                  fontWeight: 'bold',
+                  py: 1.5,
+                  px: 4,
+                  borderRadius: 1,
+                  '&:hover': { backgroundColor: 'green.600' },
+                }}
+              >
+                Hacer Pedido
+              </Button>
+            </Box>
+          </Stack>
+
+          {/* Mapa de Ubicación */}
+          <Box sx={{ mt: 6 }}>
+            <Typography
+              variant="h5"
+              component="h3"
+              sx={{ fontFamily: 'serif', fontWeight: 'bold', color: 'green.400', textAlign: 'center', mb: 3 }}
+            >
+              Nuestra Ubicación
+            </Typography>
+            <Box
+              sx={{
+                borderRadius: 2,
+                overflow: 'hidden',
+                boxShadow: 3,
+              }}
+            >
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3159.6498443257177!2d-0.35580248467611764!3d39.47411477948668!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd604f4fdff1e1fd%3A0x8282e2b4afc95b7!2sCarrer%20de%20Pere%20de%20Val%C3%A8ncia%2C%2046022%20Val%C3%A8ncia%2C%20Espa%C3%B1a!5e0!3m2!1sen!2sus!4v1692903826541!5m2!1sen!2sus"
+                width="100%"
+                height="300"
+                style={{ border: 0 }}
+                allowFullScreen={true}
+                loading="lazy"
+              ></iframe>
+            </Box>
+          </Box>
+
+          {/* Barra Inferior */}
+          <Box
+            sx={{
+              mt: 6,
+              borderTop: '1px solid',
+              borderColor: 'gray.700',
+              pt: 3,
+              textAlign: 'center',
+              color: 'gray.500',
+              fontSize: '0.875rem',
+            }}
+          >
+            © 2024 Casa Loly. Todos los derechos reservados.
+          </Box>
+        </Container>
+      </FooterRoot>
     </ThemeProvider>
+
   );
 }
