@@ -294,7 +294,7 @@ export default function DeliveryOrderPage() {
         {/* Title */}
         <Typography
           component={Link}
-          href="#home"
+          href="https://casa-loly.vercel.app"
           sx={{
             fontSize: { xs: '16px', sm: '20px', md: '28px' },
             fontWeight: 'bold',
