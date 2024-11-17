@@ -26,15 +26,20 @@ import {
   Stack,
   Chip,
   Badge,
+  Modal,
 } from '@mui/material';
 import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
 import { Add, Remove, Delete } from '@mui/icons-material';
 
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import PhoneIcon from '@mui/icons-material/Phone';
+
 
 import DestacadosSection from '@/components/Destacados';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+
+import CloseIcon from '@mui/icons-material/Close';
+import PhoneIcon from '@mui/icons-material/Phone';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
 
 
@@ -92,6 +97,17 @@ export default function DeliveryOrderPage() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const summaryRef = useRef<HTMLDivElement>(null);
   const [cartAnimating, setCartAnimating] = useState(false);
+  const [showContactInfo, setShowContactInfo] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
 
 
 
@@ -290,32 +306,127 @@ export default function DeliveryOrderPage() {
           CASA LOLY
         </Typography>
 
-        {/* Shopping cart */}
-        <IconButton
-          onClick={handleScrollToSummary}
-          sx={{
-            position: 'relative',
-            '& .cart-icon': {
-              animation: cartAnimating ? 'bounce 0.5s' : 'none',
-              '@keyframes bounce': {
-                '0%, 100%': { transform: 'scale(1)' },
-                '50%': { transform: 'scale(1.2)' },
+        {/* Right Section */}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          {/* Contact Button */}
+          <Box>
+            {/* Contact Button */}
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={handleOpenModal}
+              sx={{
+                textTransform: 'none',
+                borderColor: 'black',
+                color: 'black',
+                fontWeight: 'bold',
+                '&:hover': {
+                  borderColor: 'gray.700',
+                  backgroundColor: 'gray.100',
+                },
+              }}
+            >
+              Contacto
+            </Button>
+
+            {/* Contact Information */}
+            <Modal
+              open={isModalOpen}
+              onClose={handleCloseModal}
+              aria-labelledby="contact-info-title"
+              aria-describedby="contact-info-description"
+            >
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  width: { xs: '90%', sm: '400px' },
+                  bgcolor: 'background.paper',
+                  borderRadius: 2,
+                  boxShadow: 24,
+                  p: 4,
+                }}
+              >
+                {/* Close Button */}
+                <IconButton
+                  onClick={handleCloseModal}
+                  sx={{ position: 'absolute', top: 8, right: 8 }}
+                >
+                  <CloseIcon />
+                </IconButton>
+
+                {/* Contact Information */}
+                <Typography
+                  id="contact-info-title"
+                  variant="h6"
+                  sx={{ fontWeight: 'bold', mb: 3 }}
+                >
+                  Información de Contacto
+                </Typography>
+
+                <Stack spacing={2}>
+                  {/* Phone */}
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <PhoneIcon sx={{ color: 'primary.main' }} />
+                    <Typography variant="body1">
+                      Teléfono:{' '}
+                      <MuiLink href="tel:+34962023339" underline="hover" color="inherit">
+                        +34 962 023 339
+                      </MuiLink>
+                    </Typography>
+                  </Stack>
+
+                  {/* WhatsApp */}
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <WhatsAppIcon sx={{ color: 'green' }} />
+                    <Typography variant="body1">
+                      WhatsApp:{' '}
+                      <MuiLink
+                        href="https://wa.me/34631897702"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        underline="hover"
+                        color="inherit"
+                      >
+                        Chatear en WhatsApp
+                      </MuiLink>
+                    </Typography>
+                  </Stack>
+                </Stack>
+              </Box>
+            </Modal>
+          </Box>
+
+          {/* Shopping Cart */}
+          <IconButton
+            onClick={handleScrollToSummary}
+            sx={{
+              position: 'relative',
+              '& .cart-icon': {
+                animation: cartAnimating ? 'bounce 0.5s' : 'none',
+                '@keyframes bounce': {
+                  '0%, 100%': { transform: 'scale(1)' },
+                  '50%': { transform: 'scale(1.2)' },
+                },
               },
-            },
-          }}
-        >
-          <Badge
-            badgeContent={currentOrder.length}
-            color="primary"
-            overlap="circular"
+            }}
           >
-            <ShoppingCartIcon
-              className="cart-icon"
-              sx={{ color: 'black', fontSize: '28px' }}
-            />
-          </Badge>
-        </IconButton>
+            <Badge
+              badgeContent={currentOrder.length}
+              color="primary"
+              overlap="circular"
+            >
+              <ShoppingCartIcon
+                className="cart-icon"
+                sx={{ color: 'black', fontSize: '28px' }}
+              />
+            </Badge>
+          </IconButton>
+        </Box>
       </Box>
+
 
 
 
@@ -695,96 +806,142 @@ export default function DeliveryOrderPage() {
       </Container>
       <FooterRoot sx={{ backgroundColor: 'gray.900', color: 'white', py: 6, width: '100%' }}>
         <Container maxWidth="lg">
-          {/* Encabezado principal */}
-          <Stack spacing={8} direction={{ xs: 'column', md: 'row' }} justifyContent="space-between">
-            {/* Logo e Introducción */}
-            <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+          {/* Main Footer Section */}
+          <Stack
+            spacing={{ xs: 6, md: 12 }}
+            direction={{ xs: 'column', md: 'row' }}
+            justifyContent="space-between"
+            alignItems="flex-start"
+            sx={{ mb: 6 }}
+          >
+            {/* Logo and Introduction */}
+            <Box sx={{ textAlign: { xs: 'center', md: 'left' }, maxWidth: '400px' }}>
               <Typography
                 variant="h4"
                 component="h2"
-                sx={{ fontFamily: 'serif', fontWeight: 'bold', color: 'yellow.400', mb: 2 }}
+                sx={{
+                  fontFamily: 'serif',
+                  fontWeight: 'bold',
+                  color: 'yellow.400',
+                  mb: 2,
+                }}
               >
                 Casa Loly - Comidas para Llevar
               </Typography>
               <Typography
                 variant="body1"
-                sx={{ color: 'gray.400', maxWidth: '400px', mx: { xs: 'auto', md: 0 } }}
+                sx={{
+                  color: 'gray.400',
+                  lineHeight: 1.6,
+                }}
               >
-                Disfruta de comida casera hecha con ingredientes frescos y saludables. Nuestra misión es
-                llevar sabor y calidad a tu mesa.
+                Disfruta de comida casera hecha con ingredientes frescos y saludables.
+                Nuestra misión es llevar sabor y calidad a tu mesa.
               </Typography>
             </Box>
 
-            {/* Información de Contacto */}
-            <Box>
-              <Typography
-                variant="h5"
-                component="h3"
-                sx={{ fontFamily: 'serif', fontWeight: 'bold', color: 'yellow.400', mb: 3 }}
-              >
-                Contacto
-              </Typography>
-              <Stack spacing={2}>
-                <Stack direction="row" spacing={2} alignItems="center">
-                  <LocationOnIcon style={{ color: '#F59E0B' }} /> {/* yellow-500 in Tailwind is #F59E0B */}
-                  <Typography variant="body1" sx={{ color: 'gray.400' }}>
-                    Carrer de Pere de València, 3, 46022 València, Valencia, España
-                  </Typography>
-                </Stack>
-                <Stack direction="row" spacing={2} alignItems="center">
-                  <PhoneIcon style={{ color: '#F59E0B' }} />
-                  <MuiLink href="tel:962023339" sx={{ color: 'gray.400', '&:hover': { color: 'white' } }}>
-                    962 023 339
-                  </MuiLink>
-                </Stack>
-
-                <Stack direction="row" spacing={2} alignItems="center">
-                </Stack>
-                <Stack direction="row" spacing={2} alignItems="center">
-
-                  <Typography variant="body1" sx={{ color: 'gray.400' }}>
-                    Martes a Domingo, 11:00 a.m. - 4:00 p.m.
-                  </Typography>
-                </Stack>
-              </Stack>
-            </Box>
-
-            {/* Botón de Hacer Pedido */}
+            {/* Contact Information */}
             <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
               <Typography
                 variant="h5"
                 component="h3"
-                sx={{ fontFamily: 'serif', fontWeight: 'bold', color: 'yellow.400', mb: 2 }}
+                sx={{
+                  fontFamily: 'serif',
+                  fontWeight: 'bold',
+                  color: 'yellow.400',
+                  mb: 3,
+                }}
+              >
+                Contacto
+              </Typography>
+              <Stack spacing={2} sx={{ color: 'gray.400' }}>
+                <Stack direction="row" spacing={2} alignItems="center">
+                  <LocationOnIcon sx={{ color: '#F59E0B' }} />
+                  <Typography variant="body2">
+                    Carrer de Pere de València, 3, 46022 València, Valencia, España
+                  </Typography>
+                </Stack>
+                <Stack direction="row" spacing={2} alignItems="center">
+                  <PhoneIcon sx={{ color: '#F59E0B' }} />
+                  <MuiLink
+                    href="tel:962023339"
+                    sx={{
+                      color: 'gray.400',
+                      textDecoration: 'none',
+                      '&:hover': { color: 'white' },
+                    }}
+                  >
+                    962 023 339
+                  </MuiLink>
+                </Stack>
+                <Typography variant="body2">
+                  Horarios: Martes a Domingo, 11:00 a.m. - 4:00 p.m.
+                </Typography>
+              </Stack>
+            </Box>
+
+            {/* Quick Action: Make an Order */}
+            <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+              <Typography
+                variant="h5"
+                component="h3"
+                sx={{
+                  fontFamily: 'serif',
+                  fontWeight: 'bold',
+                  color: 'yellow.400',
+                  mb: 2,
+                }}
               >
                 ¿Listo para ordenar?
               </Typography>
-              <Typography variant="body1" sx={{ color: 'gray.400', mb: 3 }}>
-                Haz tu pedido ahora y disfruta de nuestros platos caseros en la comodidad de tu hogar.
+              <Typography
+                variant="body1"
+                sx={{
+                  color: 'gray.400',
+                  mb: 3,
+                  lineHeight: 1.6,
+                }}
+              >
+                Haz tu pedido ahora y disfruta de nuestros platos caseros en la
+                comodidad de tu hogar.
               </Typography>
               <Button
-                href="#order"
+                onClick={() => {
+                  const menuSection = document.getElementById('menu');
+                  if (menuSection) {
+                    menuSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
                 sx={{
                   display: 'inline-block',
-                  backgroundColor: 'yellow.500',
-                  color: 'white',
+                  backgroundColor: '#FFC03A', // Original yellow color
+                  color: 'white', // White text for contrast
                   fontWeight: 'bold',
                   py: 1.5,
                   px: 4,
                   borderRadius: 1,
-                  '&:hover': { backgroundColor: 'yellow.600' },
+                  textTransform: 'none', // Prevent uppercase transformation
+                  '&:hover': { backgroundColor: '#E0A82E' }, // Slightly darker yellow on hover
                 }}
               >
                 Hacer Pedido
               </Button>
+
             </Box>
           </Stack>
 
-          {/* Mapa de Ubicación */}
+          {/* Location Map */}
           <Box sx={{ mt: 6 }}>
             <Typography
               variant="h5"
               component="h3"
-              sx={{ fontFamily: 'serif', fontWeight: 'bold', color: 'yellow.400', textAlign: 'center', mb: 3 }}
+              sx={{
+                fontFamily: 'serif',
+                fontWeight: 'bold',
+                color: 'yellow.400',
+                textAlign: 'center',
+                mb: 3,
+              }}
             >
               Nuestra Ubicación
             </Typography>
@@ -792,7 +949,7 @@ export default function DeliveryOrderPage() {
               sx={{
                 borderRadius: 2,
                 overflow: 'hidden',
-                boxShadow: 3,
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
               }}
             >
               <iframe
@@ -800,28 +957,43 @@ export default function DeliveryOrderPage() {
                 width="100%"
                 height="300"
                 style={{ border: 0 }}
-                allowFullScreen={true}
+                allowFullScreen
                 loading="lazy"
               ></iframe>
             </Box>
           </Box>
 
-          {/* Barra Inferior */}
+          {/* Footer Bottom Bar */}
           <Box
             sx={{
               mt: 6,
+              pt: 3,
               borderTop: '1px solid',
               borderColor: 'gray.700',
-              pt: 3,
               textAlign: 'center',
               color: 'gray.500',
               fontSize: '0.875rem',
             }}
           >
-            © 2024 Casa Loly. Todos los derechos reservados.
+            <Typography>
+              © 2024 Casa Loly. Todos los derechos reservados.
+            </Typography>
+            <MuiLink
+              href="#privacy-policy"
+              sx={{
+                color: 'yellow.400',
+                textDecoration: 'none',
+                '&:hover': { color: 'yellow.500' },
+                display: 'block',
+                mt: 1,
+              }}
+            >
+              Política de Privacidad
+            </MuiLink>
           </Box>
         </Container>
       </FooterRoot>
+
 
     </ThemeProvider>
   );
