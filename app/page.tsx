@@ -97,7 +97,6 @@ export default function DeliveryOrderPage() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const summaryRef = useRef<HTMLDivElement>(null);
   const [cartAnimating, setCartAnimating] = useState(false);
-  const [showContactInfo, setShowContactInfo] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
