@@ -27,7 +27,6 @@ import {
   Link as MuiLink,
   Stack,
   Chip,
-  Drawer,
 } from '@mui/material';
 import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
 import { Add, Remove, Delete } from '@mui/icons-material';
@@ -74,31 +73,6 @@ const FooterRoot = styled(Box)(({ theme }) => ({
   },
 }));
 
-const FooterTitle = styled(Typography)(({ theme }) => ({
-  fontWeight: 700,
-  letterSpacing: '0.5px',
-  marginBottom: theme.spacing(3),
-  textAlign: 'center',
-}));
-
-const ContactLink = styled(MuiLink)(({ theme }) => ({
-  color: theme.palette.grey[300],
-  display: 'flex',
-  alignItems: 'center',
-  gap: theme.spacing(1),
-  textDecoration: 'none',
-  transition: 'color 0.2s',
-  '&:hover': {
-    color: '#ffffff',
-  },
-}));
-
-const IconWrapper = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  color: theme.palette.grey[400],
-}));
-
 export default function DeliveryOrderPage() {
   const router = useRouter();
   const [currentOrder, setCurrentOrder] = useState<OrderItem[]>([]);
@@ -113,11 +87,9 @@ export default function DeliveryOrderPage() {
   const [pickupDateTime, setPickupDateTime] = useState('');
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const summaryRef = useRef<HTMLDivElement>(null);
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
 
-  const toggleDrawer = (open: boolean) => () => {
-    setDrawerOpen(open);
-  };
+
+
 
   const fetchMenuItems = async () => {
     try {
@@ -278,15 +250,15 @@ export default function DeliveryOrderPage() {
         sx={{
           display: 'flex',
           alignItems: 'center',
+          justifyContent: 'center', // Centra horizontalmente en todas las pantallas
           height: 80,
           width: '100%',
           maxWidth: '1200px',
-          justifyContent: { xs: 'center', lg: 'flex-start' }, // Centrado en móvil, alineado a la izquierda en escritorio
           px: { xs: 1, md: 2 }, // Ajuste de relleno horizontal
           mx: 'auto',
         }}
       >
-        {/* Logo: centrado en móvil, a la izquierda en pantallas grandes */}
+        {/* Logo: centrado en todas las pantallas */}
         <Typography
           component={Link}
           href="#home"
@@ -296,31 +268,15 @@ export default function DeliveryOrderPage() {
             fontWeight: 'bold',
             color: 'inherit',
             textDecoration: 'none',
-            position: { xs: 'absolute', lg: 'relative' }, // Centrado absoluto en móvil
-            left: { xs: '50%', lg: '0' }, // Centrado horizontal en móvil
-            transform: { xs: 'translateX(-50%)', lg: 'none' }, // Ajuste para centrar en móvil
+            textAlign: 'center', // Centrar texto en todas las pantallas
           }}
         >
           CASA LOLY
         </Typography>
       </Box>
 
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-        <Box sx={{ textAlign: 'center', mb: 4 }}>
-          <Typography
-            variant="h4"
-            component="h1"
-            gutterBottom
-            sx={{
-              color: 'primary.main',
-              fontFamily: 'ui-serif, Georgia, Cambria, Times New Roman, Times, serif', // Aplicar la tipología
-              fontWeight: 'bold', // Asegurar el grosor
-            }}
-          >
-            ¡HAZ YA TU PEDIDO!
-          </Typography>
-        </Box>
 
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         <Grid container spacing={4}>
           <Grid item xs={12} md={7}>
             <Paper elevation={0} sx={{ p: 3, borderRadius: 4 }}>
