@@ -821,7 +821,7 @@ export default function DeliveryOrderPage() {
                 sx={{
                   fontFamily: 'serif',
                   fontWeight: 'bold',
-                  color: 'yellow.400',
+                  color: '#FFC03A', // Bright yellow for highlight
                   mb: 2,
                 }}
               >
@@ -840,14 +840,14 @@ export default function DeliveryOrderPage() {
             </Box>
 
             {/* Contact Information */}
-            <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+            <Box>
               <Typography
                 variant="h5"
                 component="h3"
                 sx={{
                   fontFamily: 'serif',
                   fontWeight: 'bold',
-                  color: 'yellow.400',
+                  color: '#FFC03A',
                   mb: 3,
                 }}
               >
@@ -855,13 +855,13 @@ export default function DeliveryOrderPage() {
               </Typography>
               <Stack spacing={2} sx={{ color: 'gray.400' }}>
                 <Stack direction="row" spacing={2} alignItems="center">
-                  <LocationOnIcon sx={{ color: '#F59E0B' }} />
+                  <LocationOnIcon sx={{ color: '#FFC03A' }} />
                   <Typography variant="body2">
                     Carrer de Pere de València, 3, 46022 València, Valencia, España
                   </Typography>
                 </Stack>
                 <Stack direction="row" spacing={2} alignItems="center">
-                  <PhoneIcon sx={{ color: '#F59E0B' }} />
+                  <PhoneIcon sx={{ color: '#FFC03A' }} />
                   <MuiLink
                     href="tel:962023339"
                     sx={{
@@ -873,9 +873,11 @@ export default function DeliveryOrderPage() {
                     962 023 339
                   </MuiLink>
                 </Stack>
-                <Typography variant="body2">
-                  Horarios: Martes a Domingo, 11:00 a.m. - 4:00 p.m.
-                </Typography>
+                <Stack direction="row" spacing={2} alignItems="center">
+                  <Typography variant="body2">
+                    Horarios: Martes a Domingo, 11:00 a.m. - 4:00 p.m.
+                  </Typography>
+                </Stack>
               </Stack>
             </Box>
 
@@ -887,7 +889,7 @@ export default function DeliveryOrderPage() {
                 sx={{
                   fontFamily: 'serif',
                   fontWeight: 'bold',
-                  color: 'yellow.400',
+                  color: '#FFC03A',
                   mb: 2,
                 }}
               >
@@ -925,7 +927,6 @@ export default function DeliveryOrderPage() {
               >
                 Hacer Pedido
               </Button>
-
             </Box>
           </Stack>
 
@@ -937,7 +938,7 @@ export default function DeliveryOrderPage() {
               sx={{
                 fontFamily: 'serif',
                 fontWeight: 'bold',
-                color: 'yellow.400',
+                color: '#FFC03A',
                 textAlign: 'center',
                 mb: 3,
               }}
@@ -980,9 +981,9 @@ export default function DeliveryOrderPage() {
             <MuiLink
               href="#privacy-policy"
               sx={{
-                color: 'yellow.400',
+                color: '#FFC03A',
                 textDecoration: 'none',
-                '&:hover': { color: 'yellow.500' },
+                '&:hover': { color: '#E0A82E' },
                 display: 'block',
                 mt: 1,
               }}
@@ -992,6 +993,7 @@ export default function DeliveryOrderPage() {
           </Box>
         </Container>
       </FooterRoot>
+
 
 
     </ThemeProvider>
