@@ -31,9 +31,10 @@ import {
 } from '@mui/material';
 import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
 import { Add, Remove, Delete } from '@mui/icons-material';
+
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import PhoneIcon from '@mui/icons-material/Phone'
-import { Mail, Clock } from 'lucide-react';
+
 
 const theme = createTheme({
   palette: {
@@ -513,11 +514,10 @@ export default function DeliveryOrderPage() {
           message={snackbarMessage}
         />
 
-
       </Container>
       <FooterRoot sx={{ backgroundColor: 'gray.900', color: 'white', py: 6, width: '100%' }}>
         <Container maxWidth="lg">
-          {/* Grid layout */}
+          {/* Encabezado principal */}
           <Stack spacing={8} direction={{ xs: 'column', md: 'row' }} justifyContent="space-between">
             {/* Logo e Introducción */}
             <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
@@ -526,7 +526,7 @@ export default function DeliveryOrderPage() {
                 component="h2"
                 sx={{ fontFamily: 'serif', fontWeight: 'bold', color: 'green.400', mb: 2 }}
               >
-                Casa Loly
+                Casa Loly - Comidas para Llevar
               </Typography>
               <Typography
                 variant="body1"
@@ -548,28 +548,21 @@ export default function DeliveryOrderPage() {
               </Typography>
               <Stack spacing={2}>
                 <Stack direction="row" spacing={2} alignItems="center">
-                  <LocationOnIcon sx={{ color: 'green.400' }} />
+                  <LocationOnIcon style={{ color: 'rgb(34, 197, 94)' }} />
                   <Typography variant="body1" sx={{ color: 'gray.400' }}>
-                    Carrer de Pere de València, 46022 València, España
+                    Carrer de Pere de València, 3, 46022 València, Valencia, España
                   </Typography>
                 </Stack>
                 <Stack direction="row" spacing={2} alignItems="center">
-                  <PhoneIcon sx={{ color: 'green.400' }} />
+                  <PhoneIcon style={{ color: 'rgb(34, 197, 94)' }} />
                   <MuiLink href="tel:962023339" sx={{ color: 'gray.400', '&:hover': { color: 'white' } }}>
                     962 023 339
                   </MuiLink>
                 </Stack>
                 <Stack direction="row" spacing={2} alignItems="center">
-                  <Mail sx={{ color: 'green.400' }} />
-                  <MuiLink
-                    href="mailto:yostrada@gmail.com"
-                    sx={{ color: 'gray.400', '&:hover': { color: 'white' } }}
-                  >
-                    yostrada@gmail.com
-                  </MuiLink>
                 </Stack>
                 <Stack direction="row" spacing={2} alignItems="center">
-                  <Clock sx={{ color: 'green.400' }} />
+
                   <Typography variant="body1" sx={{ color: 'gray.400' }}>
                     Martes a Domingo, 11:00 a.m. - 4:00 p.m.
                   </Typography>
@@ -650,7 +643,7 @@ export default function DeliveryOrderPage() {
           </Box>
         </Container>
       </FooterRoot>
-    </ThemeProvider>
 
+    </ThemeProvider>
   );
 }
