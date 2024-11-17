@@ -10,6 +10,7 @@ interface MenuItem {
     price: number;
     isOutOfStock: boolean;
     discount?: number; // Porcentaje de descuento opcional
+    image?: string; // URL de la imagen del plato
 }
 
 // GET request: Obtener todos los elementos del menú o filtrados por algún criterio
@@ -56,6 +57,7 @@ export const POST = async (request: Request) => {
             price,
             isOutOfStock,
             discount: data.discount ?? 0, // Valor por defecto en 0 si no se proporciona
+            image: data.image, // Guardar la URL de la imagen si se proporciona
         });
 
         await newMenuItem.save();
@@ -73,6 +75,7 @@ export const POST = async (request: Request) => {
     }
 };
 
+// PUT request: Actualizar un elemento existente del menú
 export const PUT = async (request: Request) => {
     try {
         await connect(); // Conectar a la base de datos
@@ -95,6 +98,7 @@ export const PUT = async (request: Request) => {
         if (updateData.price !== undefined) updateFields.price = updateData.price;
         if (updateData.isOutOfStock !== undefined) updateFields.isOutOfStock = updateData.isOutOfStock;
         if (updateData.discount !== undefined) updateFields.discount = updateData.discount;
+        if (updateData.image !== undefined) updateFields.image = updateData.image; // Actualizar la imagen
 
         // Realizar la actualización con el ID recuperado
         const updatedMenuItem = await MenuItemModel.findOneAndUpdate(

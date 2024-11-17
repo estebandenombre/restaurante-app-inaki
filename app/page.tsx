@@ -17,8 +17,6 @@ import {
   IconButton,
   Divider,
   Snackbar,
-  Card,
-  CardContent,
   CircularProgress,
   RadioGroup,
   FormControlLabel,
@@ -27,12 +25,17 @@ import {
   Link as MuiLink,
   Stack,
   Chip,
+  Badge,
 } from '@mui/material';
 import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
 import { Add, Remove, Delete } from '@mui/icons-material';
 
-import LocationOnIcon from '@mui/icons-material/LocationOn'
-import PhoneIcon from '@mui/icons-material/Phone'
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import PhoneIcon from '@mui/icons-material/Phone';
+
+import DestacadosSection from '@/components/Destacados';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+
 
 
 const theme = createTheme({
@@ -52,6 +55,7 @@ const theme = createTheme({
 interface MenuItem {
   id: string;
   name: string;
+  image: string;
   description?: string;
   price: number;
   isOutOfStock: boolean;
@@ -87,6 +91,7 @@ export default function DeliveryOrderPage() {
   const [pickupDateTime, setPickupDateTime] = useState('');
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const summaryRef = useRef<HTMLDivElement>(null);
+  const [cartAnimating, setCartAnimating] = useState(false);
 
 
 
@@ -129,16 +134,26 @@ export default function DeliveryOrderPage() {
     } else {
       setCurrentOrder([...currentOrder, { ...item, quantity: 1, discountedPrice }]);
     }
+    // Trigger animation
+    setCartAnimating(true);
+    setTimeout(() => setCartAnimating(false), 500); // Stop animation after 500ms
 
     setSnackbarMessage(`Se ha añadido ${item.name} al pedido.`);
     setSnackbarOpen(true);
-    handleScrollToSummary();
+    //handleScrollToSummary();
   };
 
   const handleScrollToSummary = () => {
     if (summaryRef.current) {
       summaryRef.current.scrollIntoView({ behavior: 'smooth' });
       setSnackbarOpen(false);
+    }
+  };
+
+  const handleScrollToMenu = () => {
+    const menuSection = document.getElementById('menu');
+    if (menuSection) {
+      menuSection.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -250,100 +265,287 @@ export default function DeliveryOrderPage() {
         sx={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center', // Centra horizontalmente en todas las pantallas
+          justifyContent: 'space-between',
           height: 80,
-          width: '100%',
-          maxWidth: '1200px',
-          px: { xs: 1, md: 2 }, // Ajuste de relleno horizontal
-          mx: 'auto',
+          px: { xs: 2, md: 4 },
+          backgroundColor: 'white',
+          color: 'black',
+          position: 'sticky',
+          top: 0,
+          zIndex: 10,
+          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
         }}
       >
-        {/* Logo: centrado en todas las pantallas */}
+        {/* Title */}
         <Typography
           component={Link}
           href="#home"
           sx={{
-            fontSize: '24px', // Tamaño ajustado a 24px
-            fontFamily: 'ui-serif, Georgia, Cambria, Times New Roman, Times, serif', // Mantener la fuente
+            fontSize: { xs: '16px', sm: '20px', md: '28px' },
             fontWeight: 'bold',
-            color: 'inherit',
+            color: 'black',
             textDecoration: 'none',
-            textAlign: 'center', // Centrar texto en todas las pantallas
           }}
         >
           CASA LOLY
         </Typography>
+
+        {/* Shopping cart */}
+        <IconButton
+          onClick={handleScrollToSummary}
+          sx={{
+            position: 'relative',
+            '& .cart-icon': {
+              animation: cartAnimating ? 'bounce 0.5s' : 'none',
+              '@keyframes bounce': {
+                '0%, 100%': { transform: 'scale(1)' },
+                '50%': { transform: 'scale(1.2)' },
+              },
+            },
+          }}
+        >
+          <Badge
+            badgeContent={currentOrder.length}
+            color="primary"
+            overlap="circular"
+          >
+            <ShoppingCartIcon
+              className="cart-icon"
+              sx={{ color: 'black', fontSize: '28px' }}
+            />
+          </Badge>
+        </IconButton>
       </Box>
 
 
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+
+      <DestacadosSection />
+
+
+      <Container maxWidth="lg" id="menu" sx={{ mt: 4, mb: 4 }}>
+
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            backgroundColor: '#FFFFFF', // Fondo blanco
+            borderRadius: '16px', // Bordes redondeados
+            padding: '16px',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Sombra sutil
+            overflow: 'hidden',
+            maxWidth: '600px', // Limita el ancho de la card
+            margin: '32px auto', // Separación superior e inferior, centrado horizontal
+            position: 'relative',
+            paddingRight: '120px', // Espacio para la imagen dentro del diseño
+          }}
+        >
+          {/* Imagen de fondo recortada */}
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              right: '16px', // Posiciona la imagen hacia la derecha dentro de la card
+              transform: 'translateY(-50%)', // Centra verticalmente
+              width: '100px', // Tamaño de la imagen
+              height: '100px',
+              borderRadius: '50%', // Imagen redonda
+              overflow: 'hidden',
+            }}
+          >
+            <img
+              src="/paella.jpg" // Cambiar por la imagen relevante
+              alt="Promoción jueves"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+              }}
+            />
+          </Box>
+
+          {/* Contenido textual */}
+          <Box sx={{ flex: 1, zIndex: 1, pr: 2 }}>
+            <Typography
+              sx={{
+                fontSize: '22px',
+                fontWeight: 'bold',
+                mb: 1,
+                lineHeight: 1.2,
+                color: '#FFC03A', // Amarillo para destacar
+              }}
+            >
+              ¡Promoción Especial!
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: '16px',
+                mb: 2,
+                color: '#4A4A4A', // Gris oscuro para el texto
+              }}
+            >
+              Todos los jueves, todas las comidas están a solo{' '}
+              <span style={{ fontWeight: 'bold', color: '#FFC03A' }}>3€</span>.
+            </Typography>
+            <Button
+              sx={{
+                backgroundColor: '#FFC03A', // Botón amarillo vibrante
+                color: '#FFFFFF', // Texto blanco
+                fontWeight: 'bold',
+                padding: '8px 16px',
+                borderRadius: '8px',
+                textTransform: 'none',
+                '&:hover': {
+                  backgroundColor: '#E0A82E', // Amarillo ligeramente más oscuro al hacer hover
+                },
+              }}
+            >
+              Haz tu Pedido
+            </Button>
+          </Box>
+        </Box>
+
         <Grid container spacing={4}>
           <Grid item xs={12} md={7}>
             <Paper elevation={0} sx={{ p: 3, borderRadius: 4 }}>
               <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
                 Menú
               </Typography>
-              <Grid container spacing={2}>
+              <Grid container spacing={3}>
                 {menuItems.map((item) => (
-                  <Grid item xs={12} sm={6} key={item.id}>
-                    <Card>
-                      <CardContent>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
-                          <Typography variant="h6" component="h2">
-                            {item.name}
+                  <Grid item xs={12} key={item.id}>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        p: 3,
+                        backgroundColor: 'white',
+                        position: 'relative',
+                        overflow: 'hidden',
+                        borderBottom: '1px solid #E0E0E0', // Borde inferior para separar los platos
+                        '&:last-of-type': {
+                          borderBottom: 'none', // Eliminar el borde inferior del último elemento
+                        },
+                      }}
+                    >
+                      {/* Imagen redonda */}
+                      <Box
+                        sx={{
+                          width: 160, // Tamaño más grande
+                          height: 160, // Tamaño más grande
+                          borderRadius: '50%',
+                          overflow: 'hidden',
+                          mb: 2,
+                        }}
+                      >
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                          }}
+                        />
+                      </Box>
+
+                      {/* Nombre del plato */}
+                      <Typography
+                        variant="h6"
+                        component="h3"
+                        sx={{
+                          textAlign: 'center',
+                          fontWeight: 'bold',
+                          mb: 1,
+                          color: '#333',
+                        }}
+                      >
+                        {item.name}
+                      </Typography>
+
+                      {/* Descripción del plato */}
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{ textAlign: 'center', mb: 2 }}
+                      >
+                        {item.description || 'Delicioso plato preparado con ingredientes frescos.'}
+                      </Typography>
+
+                      {/* Precio y botón */}
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          width: '100%',
+                        }}
+                      >
+                        <Box>
+                          <Typography
+                            variant="h6"
+                            component="span"
+                            sx={{ fontWeight: 'bold', color: '#000' }}
+                          >
+                            {item.discount !== undefined && item.discount > 0
+                              ? (item.price * (1 - item.discount / 100)).toFixed(2) + '€'
+                              : item.price.toFixed(2) + '€'}
                           </Typography>
-                          {/* Solo mostrar el Chip de descuento si el descuento es mayor a 0 */}
                           {item.discount !== undefined && item.discount > 0 && (
-                            <Chip
-                              label={`- ${item.discount}%`}
-                              color="secondary"
-                              size="small"
-                            />
+                            <Typography
+                              variant="body2"
+                              component="span"
+                              sx={{
+                                textDecoration: 'line-through',
+                                ml: 1,
+                                color: 'text.secondary',
+                              }}
+                            >
+                              {item.price.toFixed(2)}€
+                            </Typography>
                           )}
                         </Box>
-                        {item.description && (
-                          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                            {item.description}
-                          </Typography>
-                        )}
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
-                          <Box>
-                            <Typography variant="h6" component="span">
-                              {/* Mostrar el precio con descuento, si hay descuento aplicable */}
-                              {item.discount !== undefined && item.discount > 0
-                                ? (item.price * (1 - item.discount / 100)).toFixed(2) + "€"
-                                : item.price.toFixed(2) + "€"} {/* Mostrar solo el precio normal si no hay descuento */}
-                            </Typography>
-                            {/* Mostrar el precio original si hay descuento */}
-                            {item.discount !== undefined && item.discount > 0 && (
-                              <Typography
-                                variant="body2"
-                                component="span"
-                                sx={{ textDecoration: 'line-through', ml: 1 }}
-                                color="text.secondary"
-                              >
-                                {item.price.toFixed(2)}€
-                              </Typography>
-                            )}
-                          </Box>
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            startIcon={<Add />}
-                            onClick={() => addItemToOrder(item)}
-                            disabled={item.isOutOfStock}
-                          >
-                            {item.isOutOfStock ? "AGOTADO" : "AÑADIR"}
-                          </Button>
-                        </Box>
-                      </CardContent>
-                    </Card>
+
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={() => addItemToOrder(item)}
+                          sx={{
+                            borderRadius: '50%',
+                            width: 40,
+                            height: 40,
+                            minWidth: 0,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}
+                          disabled={item.isOutOfStock}
+                        >
+                          <Add fontSize="small" />
+                        </Button>
+                      </Box>
+
+                      {/* Chip de descuento */}
+                      {item.discount !== undefined && item.discount > 0 && (
+                        <Chip
+                          label={`- ${item.discount}%`}
+                          color="secondary"
+                          size="small"
+                          sx={{
+                            position: 'absolute',
+                            top: 10,
+                            right: 10,
+                          }}
+                        />
+                      )}
+                    </Box>
                   </Grid>
                 ))}
-
               </Grid>
             </Paper>
           </Grid>
+
           <Grid item xs={12} md={5} ref={summaryRef}>
             <Paper elevation={0} sx={{ p: 3, borderRadius: 4 }}>
               <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
@@ -356,18 +558,28 @@ export default function DeliveryOrderPage() {
                       primary={`${item.name} (${item.quantity})`}
                       secondary={`${(item.price * (1 - (item.discount ? item.discount / 100 : 0)) * item.quantity).toFixed(2)} €`}
                     />
-                    <IconButton edge="end" aria-label="add" onClick={() => addItemToOrder(item)}>
-                      <Add />
-                    </IconButton>
-                    <IconButton onClick={() => removeItemFromOrder(item.id)}>
-                      <Remove />
-                    </IconButton>
-                    <IconButton onClick={() => deleteItemFromOrder(item.id)}>
-                      <Delete />
-                    </IconButton>
+                    {/* Contenedor para separar los botones */}
+                    <Box
+                      sx={{
+                        display: 'flex', // Alinear botones horizontalmente
+                        gap: 1.5, // Espacio entre botones (puedes ajustar este valor)
+                        alignItems: 'center',
+                      }}
+                    >
+                      <IconButton edge="end" aria-label="add" onClick={() => addItemToOrder(item)}>
+                        <Add />
+                      </IconButton>
+                      <IconButton onClick={() => removeItemFromOrder(item.id)}>
+                        <Remove />
+                      </IconButton>
+                      <IconButton onClick={() => deleteItemFromOrder(item.id)}>
+                        <Delete />
+                      </IconButton>
+                    </Box>
                   </ListItem>
                 ))}
               </List>
+
               <Divider sx={{ my: 2 }} />
               <Typography variant="h6" align="right">
                 Total: {calculateTotal(currentOrder)} €
@@ -450,15 +662,25 @@ export default function DeliveryOrderPage() {
 
 
                 </Box>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleSubmitOrder}
-                  fullWidth
-                  disabled={loading}
-                >
-                  {loading ? <CircularProgress size={24} /> : 'Realizar Pedido'}
-                </Button>
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={handleScrollToMenu}
+                    fullWidth
+                  >
+                    Seguir Pidiendo
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleSubmitOrder}
+                    fullWidth
+                    disabled={loading}
+                  >
+                    {loading ? <CircularProgress size={24} /> : "Realizar Pedido"}
+                  </Button>
+                </Box>
               </Box>
             </Paper>
           </Grid>
@@ -480,7 +702,7 @@ export default function DeliveryOrderPage() {
               <Typography
                 variant="h4"
                 component="h2"
-                sx={{ fontFamily: 'serif', fontWeight: 'bold', color: 'green.400', mb: 2 }}
+                sx={{ fontFamily: 'serif', fontWeight: 'bold', color: 'yellow.400', mb: 2 }}
               >
                 Casa Loly - Comidas para Llevar
               </Typography>
@@ -498,23 +720,24 @@ export default function DeliveryOrderPage() {
               <Typography
                 variant="h5"
                 component="h3"
-                sx={{ fontFamily: 'serif', fontWeight: 'bold', color: 'green.400', mb: 3 }}
+                sx={{ fontFamily: 'serif', fontWeight: 'bold', color: 'yellow.400', mb: 3 }}
               >
                 Contacto
               </Typography>
               <Stack spacing={2}>
                 <Stack direction="row" spacing={2} alignItems="center">
-                  <LocationOnIcon style={{ color: 'rgb(34, 197, 94)' }} />
+                  <LocationOnIcon style={{ color: '#F59E0B' }} /> {/* yellow-500 in Tailwind is #F59E0B */}
                   <Typography variant="body1" sx={{ color: 'gray.400' }}>
                     Carrer de Pere de València, 3, 46022 València, Valencia, España
                   </Typography>
                 </Stack>
                 <Stack direction="row" spacing={2} alignItems="center">
-                  <PhoneIcon style={{ color: 'rgb(34, 197, 94)' }} />
+                  <PhoneIcon style={{ color: '#F59E0B' }} />
                   <MuiLink href="tel:962023339" sx={{ color: 'gray.400', '&:hover': { color: 'white' } }}>
                     962 023 339
                   </MuiLink>
                 </Stack>
+
                 <Stack direction="row" spacing={2} alignItems="center">
                 </Stack>
                 <Stack direction="row" spacing={2} alignItems="center">
@@ -531,7 +754,7 @@ export default function DeliveryOrderPage() {
               <Typography
                 variant="h5"
                 component="h3"
-                sx={{ fontFamily: 'serif', fontWeight: 'bold', color: 'green.400', mb: 2 }}
+                sx={{ fontFamily: 'serif', fontWeight: 'bold', color: 'yellow.400', mb: 2 }}
               >
                 ¿Listo para ordenar?
               </Typography>
@@ -542,13 +765,13 @@ export default function DeliveryOrderPage() {
                 href="#order"
                 sx={{
                   display: 'inline-block',
-                  backgroundColor: 'green.500',
+                  backgroundColor: 'yellow.500',
                   color: 'white',
                   fontWeight: 'bold',
                   py: 1.5,
                   px: 4,
                   borderRadius: 1,
-                  '&:hover': { backgroundColor: 'green.600' },
+                  '&:hover': { backgroundColor: 'yellow.600' },
                 }}
               >
                 Hacer Pedido
@@ -561,7 +784,7 @@ export default function DeliveryOrderPage() {
             <Typography
               variant="h5"
               component="h3"
-              sx={{ fontFamily: 'serif', fontWeight: 'bold', color: 'green.400', textAlign: 'center', mb: 3 }}
+              sx={{ fontFamily: 'serif', fontWeight: 'bold', color: 'yellow.400', textAlign: 'center', mb: 3 }}
             >
               Nuestra Ubicación
             </Typography>
