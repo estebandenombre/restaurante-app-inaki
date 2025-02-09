@@ -99,6 +99,8 @@ export default function DeliveryOrderPage() {
   const [cartAnimating, setCartAnimating] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+
+
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -302,7 +304,7 @@ export default function DeliveryOrderPage() {
             textDecoration: 'none',
           }}
         >
-          CASA LOLY
+          LA CUINA
         </Typography>
 
         {/* Right Section */}
@@ -434,92 +436,13 @@ export default function DeliveryOrderPage() {
 
       <Container maxWidth="lg" id="menu" sx={{ mt: 4, mb: 4 }}>
 
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            backgroundColor: '#FFFFFF', // Fondo blanco
-            borderRadius: '16px', // Bordes redondeados
-            padding: '16px',
-            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Sombra sutil
-            overflow: 'hidden',
-            maxWidth: '600px', // Limita el ancho de la card
-            margin: '32px auto', // Separación superior e inferior, centrado horizontal
-            position: 'relative',
-            paddingRight: '120px', // Espacio para la imagen dentro del diseño
-          }}
-        >
-          {/* Imagen de fondo recortada */}
-          <Box
-            sx={{
-              position: 'absolute',
-              top: '50%',
-              right: '16px', // Posiciona la imagen hacia la derecha dentro de la card
-              transform: 'translateY(-50%)', // Centra verticalmente
-              width: '100px', // Tamaño de la imagen
-              height: '100px',
-              borderRadius: '50%', // Imagen redonda
-              overflow: 'hidden',
-            }}
-          >
-            <img
-              src="/paella.jpg" // Cambiar por la imagen relevante
-              alt="Promoción jueves"
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-              }}
-            />
-          </Box>
 
-          {/* Contenido textual */}
-          <Box sx={{ flex: 1, zIndex: 1, pr: 2 }}>
-            <Typography
-              sx={{
-                fontSize: '22px',
-                fontWeight: 'bold',
-                mb: 1,
-                lineHeight: 1.2,
-                color: '#FFC03A', // Amarillo para destacar
-              }}
-            >
-              ¡Promoción Especial!
-            </Typography>
-            <Typography
-              sx={{
-                fontSize: '16px',
-                mb: 2,
-                color: '#4A4A4A', // Gris oscuro para el texto
-              }}
-            >
-              Todos los jueves, todas las comidas están a solo{' '}
-              <span style={{ fontWeight: 'bold', color: '#FFC03A' }}>3€</span>.
-            </Typography>
-            <Button
-              sx={{
-                backgroundColor: '#FFC03A', // Botón amarillo vibrante
-                color: '#FFFFFF', // Texto blanco
-                fontWeight: 'bold',
-                padding: '8px 16px',
-                borderRadius: '8px',
-                textTransform: 'none',
-                '&:hover': {
-                  backgroundColor: '#E0A82E', // Amarillo ligeramente más oscuro al hacer hover
-                },
-              }}
-            >
-              Haz tu Pedido
-            </Button>
-          </Box>
-        </Box>
 
         <Grid container spacing={4}>
           <Grid item xs={12} md={7}>
             <Paper elevation={0} sx={{ p: 3, borderRadius: 4 }}>
               <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
-                Menú
+                Menú de Hoy
               </Typography>
               <Grid container spacing={3}>
                 {menuItems.map((item) => (
@@ -825,7 +748,7 @@ export default function DeliveryOrderPage() {
                   mb: 2,
                 }}
               >
-                Casa Loly - Comidas para Llevar
+                LA CUINA - Comidas para Llevar
               </Typography>
               <Typography
                 variant="body1"
@@ -857,25 +780,25 @@ export default function DeliveryOrderPage() {
                 <Stack direction="row" spacing={2} alignItems="center">
                   <LocationOnIcon sx={{ color: '#FFC03A' }} />
                   <Typography variant="body2">
-                    Carrer de Pere de València, 3, 46022 València, Valencia, España
+                    Calle de Pérez Bayer, 11, Ciutat Vella, 46002 Valencia
                   </Typography>
                 </Stack>
                 <Stack direction="row" spacing={2} alignItems="center">
                   <PhoneIcon sx={{ color: '#FFC03A' }} />
                   <MuiLink
-                    href="tel:962023339"
+                    href="tel:963516327"
                     sx={{
                       color: 'gray.400',
                       textDecoration: 'none',
                       '&:hover': { color: 'white' },
                     }}
                   >
-                    962 023 339
+                    963516327
                   </MuiLink>
                 </Stack>
                 <Stack direction="row" spacing={2} alignItems="center">
                   <Typography variant="body2">
-                    Horarios: Martes a Domingo, 11:00 a.m. - 4:00 p.m.
+                    Lunes a Sábado: 9:00 - 16:30
                   </Typography>
                 </Stack>
               </Stack>
@@ -976,7 +899,7 @@ export default function DeliveryOrderPage() {
             }}
           >
             <Typography>
-              © 2024 Casa Loly. Todos los derechos reservados.
+              © 2025 LA CUINA. Todos los derechos reservados.
             </Typography>
             <MuiLink
               href="#privacy-policy"

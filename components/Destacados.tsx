@@ -1,144 +1,89 @@
-import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { keyframes } from "@emotion/react";
-import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import React from 'react';
+import { Box, Typography, Button, keyframes } from "@mui/material";
 
 const destacados = [
-    {
-        title: "Paella Valenciana",
-        image: "/paella.jpg",
-        description: "Un clásico preparado con ingredientes frescos y mucho sabor.",
-    },
-    {
-        title: "Arroz Negro",
-        image: "/arroz-negro.jpg",
-        description: "Arroz con tinta de calamar, cremoso y delicioso.",
-    },
-    {
-        title: "Fideuá",
-        image: "/fideua.jpg",
-        description: "Fideos con mariscos al estilo tradicional.",
-    },
-    {
-        title: "Costillas BBQ",
-        image: "/costillas.jpg",
-        description: "Jugosas costillas con salsa barbacoa casera.",
-    },
-    {
-        title: "Canelones de Espinacas",
-        image: "/canelones.jpg",
-        description: "Rellenos de espinacas y ricotta, cubiertos de bechamel.",
-    },
-    {
-        title: "Tortilla de Patatas",
-        image: "/tortilla.jpg",
-        description: "Un clásico español hecho al estilo tradicional.",
-    },
+    { title: "Tortilla", category: "Tradicional", image: "/tortilla.jpg", price: 20 },
+    { title: "Paella Valenciana", category: "Traditional", image: "/paella.jpg", price: 25 },
+    { title: "Arroz Negro", category: "Seafood", image: "/arroz-negro.jpg", price: 22 },
+    { title: "Gazpacho", category: "Cold Soup", image: "/gazpacho.jpg", price: 18 },
+    { title: "Pulpo a la Gallega", category: "Seafood", image: "/pulpo.jpg", price: 28 },
 ];
 
-// Animación de la flecha
-const slideAnimation = keyframes`
-  0% { transform: translateX(0); }
-  50% { transform: translateX(10px); }
-  100% { transform: translateX(0); }
+// Animación de "rebote" de la flecha
+const arrowAnimation = keyframes`
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+`;
+
+// Animación de "rebote" de la promoción
+const bounceAnimation = keyframes`
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
 `;
 
 export default function DestacadosSection() {
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Detectar si es móvil
-
     return (
         <Box
             sx={{
-                py: { xs: 6, md: 12 },
-                backgroundColor: "white",
-                textAlign: "center",
-                overflowX: "hidden",
-                width: "98vw",
-                margin: 0,
+                py: 6,
             }}
-            id="destacados"
         >
-            {/* Título de la sección */}
+            {/* Título */}
             <Typography
                 variant="h4"
                 sx={{
-                    fontFamily: "serif",
+                    textAlign: "center",
                     fontWeight: "bold",
-                    mb: 3,
-                    color: "black",
-                    fontSize: { xs: "28px", md: "36px" },
+                    mb: 4,
+                    color: "#333",
                 }}
             >
                 Nuestros Destacados
             </Typography>
 
-            {/* Indicador de desplazamiento para móviles */}
-            {isMobile && (
-                <Box
-                    sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: "gray.500",
-                        mb: 2,
-                        fontSize: "14px",
-                        gap: 1,
-                    }}
-                >
-                    <Typography variant="body2">Desliza para explorar</Typography>
-                    <ArrowRightAltIcon
-                        sx={{
-                            animation: `${slideAnimation} 1.5s infinite`,
-                            fontSize: "20px",
-                        }}
-                    />
-                </Box>
-            )}
-
-            {/* Contenedor de platos */}
+            {/* Tarjetas */}
             <Box
                 sx={{
                     display: "flex",
-                    gap: { xs: 3, md: 2 },
-                    overflowX: { xs: "auto", md: "hidden" },
-                    scrollbarWidth: "none",
-                    "&::-webkit-scrollbar": { display: "none" },
-                    justifyContent: { xs: "flex-start", md: "center" },
-                    maxWidth: "100%",
-                    px: { xs: 0, md: 4 },
                     flexWrap: { xs: "nowrap", md: "wrap" },
+                    justifyContent: { xs: "flex-start", md: "center" },
+                    overflowX: { xs: "auto", md: "visible" },
+                    px: { xs: 2, md: 0 },
+                    gap: 4,
+                    '&::-webkit-scrollbar': {
+                        display: "none",
+                    },
+                    scrollbarWidth: "none",
                 }}
             >
                 {destacados.map((plato, index) => (
                     <Box
                         key={index}
                         sx={{
-                            flexShrink: 0,
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            justifyContent: "flex-start",
-                            gap: 1,
+                            width: "180px",
                             position: "relative",
-                            width: { xs: 120, md: 150 },
-                            height: "auto",
-                            cursor: "pointer", // Indicar que es interactivo
-                            "&:hover .description": !isMobile
-                                ? {
-                                    maxHeight: "100px",
-                                    opacity: 1,
-                                }
-                                : {},
+                            textAlign: "center",
+                            flexShrink: 0,
                         }}
                     >
-                        {/* Imagen circular */}
+                        {/* Contenedor de imagen */}
                         <Box
                             sx={{
-                                width: { xs: 100, md: 120 },
-                                height: { xs: 100, md: 120 },
+                                width: "140px",
+                                height: "140px",
                                 borderRadius: "50%",
                                 overflow: "hidden",
-                                mb: 1,
+                                margin: "0 auto",
+                                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                                backgroundColor: "#fff",
                             }}
                         >
                             <img
@@ -151,35 +96,142 @@ export default function DestacadosSection() {
                                 }}
                             />
                         </Box>
-                        {/* Título del plato */}
+
+                        {/* Nombre del plato */}
                         <Typography
                             variant="h6"
+                            component="h3"
                             sx={{
+                                marginTop: "12px",
                                 fontWeight: "bold",
-                                color: "black",
                                 fontSize: "16px",
+                                color: "#333",
                             }}
                         >
                             {plato.title}
                         </Typography>
-
-                        {/* Descripción expandible */}
-                        <Box
-                            className="description"
-                            sx={{
-                                maxHeight: 0,
-                                overflow: "hidden",
-                                opacity: 0,
-                                transition: "max-height 0.3s ease, opacity 0.3s ease",
-                                fontSize: "14px",
-                                color: "gray.700",
-                                textAlign: "center",
-                            }}
-                        >
-                            {plato.description}
-                        </Box>
                     </Box>
                 ))}
+            </Box>
+
+            {/* Mensaje de desplazamiento en móviles */}
+            <Box
+                sx={{
+                    display: { xs: "flex", md: "none" },
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mt: 2,
+                }}
+            >
+                <Typography
+                    sx={{
+                        fontSize: "14px",
+                        color: "#555",
+                        mr: 1,
+                    }}
+                >
+                    Desplaza para ver más
+                </Typography>
+                <Box
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        animation: `${arrowAnimation} 1.5s infinite`,
+                    }}
+                >
+                    <Box
+                        sx={{
+                            width: "16px",
+                            height: "16px",
+                            border: "solid #FFC03A",
+                            borderWidth: "2px 2px 0 0",
+                            transform: "rotate(45deg)",
+                        }}
+                    />
+                </Box>
+            </Box>
+
+            {/* Promoción con márgenes laterales */}
+            <Box
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    backgroundColor: '#FFFFFF',
+                    borderRadius: '16px',
+                    padding: '16px',
+                    boxShadow: '0 4px 8px rgba(255, 192, 58, 0.5)', // Sombra amarilla
+                    overflow: 'hidden',
+                    maxWidth: { xs: '90%', md: '600px' }, // Ancho adaptativo
+                    margin: { xs: '16px auto', md: '32px auto' }, // Márgenes para móviles y escritorio
+                    position: 'relative',
+                    paddingRight: '120px',
+                    animation: `${bounceAnimation} 3s ease-in-out infinite`, // Animación de rebote suave
+                }}
+            >
+                {/* Imagen redonda */}
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        right: '16px',
+                        transform: 'translateY(-50%)',
+                        width: '100px',
+                        height: '100px',
+                        borderRadius: '50%',
+                        overflow: 'hidden',
+                    }}
+                >
+                    <img
+                        src="/paella.jpg" // Cambia por la imagen relevante
+                        alt="Promoción jueves"
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                        }}
+                    />
+                </Box>
+
+                {/* Contenido textual */}
+                <Box sx={{ flex: 1, zIndex: 1, pr: 2 }}>
+                    <Typography
+                        sx={{
+                            fontSize: '22px',
+                            fontWeight: 'bold',
+                            mb: 1,
+                            lineHeight: 1.2,
+                            color: '#FFC03A',
+                        }}
+                    >
+                        ¡Promoción Especial!
+                    </Typography>
+                    <Typography
+                        sx={{
+                            fontSize: '16px',
+                            mb: 2,
+                            color: '#4A4A4A',
+                        }}
+                    >
+                        Todos los jueves, todas las comidas están a solo{' '}
+                        <span style={{ fontWeight: 'bold', color: '#FFC03A' }}>3€</span>.
+                    </Typography>
+                    <Button
+                        sx={{
+                            backgroundColor: '#FFC03A',
+                            color: '#FFFFFF',
+                            fontWeight: 'bold',
+                            padding: '8px 16px',
+                            borderRadius: '8px',
+                            textTransform: 'none',
+                            '&:hover': {
+                                backgroundColor: '#E0A82E',
+                            },
+                        }}
+                    >
+                        Haz tu Pedido
+                    </Button>
+                </Box>
             </Box>
         </Box>
     );

@@ -90,9 +90,9 @@ interface Pedido {
 
 // Información ficticia del restaurante
 const restaurantInfo = {
-    name: 'CASA LOLY - COMIDAS PARA LLEVAR',
-    address: 'Carrer de Pere de València, 46022 València, Valencia, España',
-    phone: '+34 962023339',
+    name: 'LA CUINA- COMIDAS PARA LLEVAR',
+    address: 'Calle de Pérez Bayer, 11, Ciutat Vella, 46002 Valencia, España',
+    phone: '++34 963516327',
 };
 
 const TicketPage: React.FC = () => {

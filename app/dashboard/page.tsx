@@ -40,8 +40,10 @@ import {
     Archive,
     Warning as WarningIcon,
     Check,
+    Money,
 } from '@mui/icons-material';
 import GestorMenu from '../gestorMenu/page'; // Asegúrate de que la ruta sea correcta
+import FinancesTab from '@/components/finances-tab'
 
 
 const theme = createTheme({
@@ -399,6 +401,7 @@ export default function Dashboard() {
                     <Tab icon={<Kitchen />} label="Cocina" />
                     <Tab icon={<DeliveryDining />} label="Pedidos Listos" />
                     <Tab icon={<Archive />} label="Pedidos Entregados" />
+                    <Tab icon={<Money />} label="Finanzas" />
                 </Tabs>
                 <Container maxWidth="lg" sx={{ mt: 4 }}>
                     {activeTab === 0 && <GestorMenu />}
@@ -849,6 +852,14 @@ export default function Dashboard() {
 
                         </>
                     )}
+                    {activeTab === 4 && (
+
+                        <FinancesTab />
+
+
+                    )}
+
+
 
 
                 </Container>

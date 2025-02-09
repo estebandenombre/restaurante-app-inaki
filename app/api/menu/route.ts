@@ -1,5 +1,6 @@
 import connect from '@/lib/db'; // Conexión a la base de datos
 import MenuItemModel from '@/lib/modals/MenuItem'; // Modelo de MenuItem
+import mongoose from 'mongoose';
 import { NextResponse } from 'next/server';
 
 // Define la estructura de los datos de un elemento del menú
@@ -51,7 +52,7 @@ export const POST = async (request: Request) => {
         }
 
         const newMenuItem = new MenuItemModel({
-            id: data.id,
+            id: data.id || new mongoose.Types.ObjectId().toString(),
             name,
             description: data.description,
             price,
